@@ -1,9 +1,11 @@
 # ClackRacer
 
 ### Background
+
 ClackRacer is typing gaming inspired by the multiplayer browser game TypeRacer. The goal of the game is to type a short passage as quickly as possible. Players must fix any errors before continuing the race, so accuracy is required. At the end of each race, players will see their accuracy and typing speed (word per minute).
 
 ### Functionality & MVP
+
 ClackRacer will allow users to:
 - [ ] Start a round
 - [ ] Type passages with visual indication of progress and correctness
@@ -15,9 +17,12 @@ Additionally, the game will include:
 - [ ] A production README
 
 ### Wireframes
+The app will consist of a single screen with a game board, title and links to the repo, my portfolio, and my LinkedIn. There will be help modal at the bottom of the game board. Users will click into the user input section to type the passage.
 
+![wireframe](wireframe.png)
 
 ### Technologies
+
 This project will be implemented with the following technologies:
 - `JavaScript` for game logic
 - `Canvas API` for rendering
