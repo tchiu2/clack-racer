@@ -1,0 +1,29 @@
+{
+  "name": "clack-racer",
+  "version": "1.0.0",
+  "description": "### Background",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/webpack --mode=production",
+    "webpack": "webpack --watch --mode=development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tchiu2/clack-racer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tchiu2/clack-racer/issues"
+  },
+  "homepage": "https://github.com/tchiu2/clack-racer#readme",
+  "dependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "babel-loader": "^8.0.5",
+    "webpack": "^4.29.2",
+    "webpack-cli": "^3.2.3"
+  }
+}
