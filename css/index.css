@@ -2,7 +2,7 @@
   display: flex;
   font-family: "Source Sans Pro", "Arial", sans-serif;
   flex-direction: column;
-  width: 800px;
+  width: 780px;
   height: 600px;
   margin: 0 auto;
 }
@@ -18,23 +18,23 @@
   stroke: #aaa;
 }
 
-.keyboard-key-multi-label {
-  font-size: 11px;
+text[class*="-label"] {
   text-rendering: optimizeLegibility;
   stroke: black;
   stroke-width: 0.5px;
   fill: black;
+}
+
+.keyboard-key-multi-label {
+  font-size: 11px;
 }
 
 .keyboard-key-mod-label {
   font-size: 13px;
-  text-rendering: optimizeLegibility;
-  stroke: black;
-  stroke-width: 0.5px;
-  fill: black;
 }
 
 .keyboard-key-single-label {
+  font-size: 14px;
 }
 
 .pressed {

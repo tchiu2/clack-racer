@@ -14,12 +14,13 @@ class GameView {
   }
 
   handleKeydown(e) {
+    e.code === 'Tab' ? e.preventDefault() : null;
     const key = document.querySelector(`.keyboard-key[data-key=${e.code}]`)
-    console.log(e.code);
     key ? key.classList.add('pressed') : null;
   }
 
   handleKeyup(e) {
+    e.code === 'Tab' ? e.preventDefault() : null;
     const key = document.querySelector(`.keyboard-key[data-key=${e.code}]`)
     key ? key.classList.remove('pressed') : null;
   }
