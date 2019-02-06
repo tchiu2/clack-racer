@@ -3,6 +3,10 @@ class Game {
     this.passage = "";
     this.userInput = "";
   }
+
+  showStatus() {
+    return this.userInput;
+  }
 }
 
 Game.DIM_X = 500;

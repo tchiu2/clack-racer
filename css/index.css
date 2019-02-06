@@ -1,0 +1,42 @@
+.main {
+  display: flex;
+  font-family: "Source Sans Pro", "Arial", sans-serif;
+  flex-direction: column;
+  width: 800px;
+  height: 600px;
+  margin: 0 auto;
+}
+
+.keyboard-container {
+  width: 100%;
+  height: 300px;
+  background-color: #ccc;
+}
+
+.keyboard-key {
+  fill: white;
+  stroke: #aaa;
+}
+
+.keyboard-key-multi-label {
+  font-size: 11px;
+  text-rendering: optimizeLegibility;
+  stroke: black;
+  stroke-width: 0.5px;
+  fill: black;
+}
+
+.keyboard-key-mod-label {
+  font-size: 13px;
+  text-rendering: optimizeLegibility;
+  stroke: black;
+  stroke-width: 0.5px;
+  fill: black;
+}
+
+.keyboard-key-single-label {
+}
+
+.pressed {
+  fill: purple; 
+}

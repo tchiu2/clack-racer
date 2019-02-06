@@ -1,11 +1,102 @@
 <html>
   <head>
     <title>ClackRacer</title>
-    <script type="application/javascript" src="./main.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <script type="application/javascript" src="./bundle.js"></script>
   </head>
   <body>
-    <canvas id="canvas"></canvas>
-    <input type="text" id="user-input"/>
-    <div id="output"></div>
+    <div class="main">
+      <canvas id="canvas"></canvas>
+      <input type="text" id="user-input"/>
+      <div class="keyboard-container">
+        <svg class="keyboard" viewBox="0 0 680 250">
+          <svg class="keyboard-layout" x="21" y="21">
+            <svg class="keyboard-key" data-key="Backquote" x="0" y="0">
+              <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
+              <text class="keyboard-key-multi-label" x="10" y="15">~</text> 
+              <text class="keyboard-key-multi-label" x="10" y="30">`</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Digit1" x="42" y="0">
+              <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
+              <text class="keyboard-key-multi-label" x="10" y="15">!</text> 
+              <text class="keyboard-key-multi-label" x="10" y="30">1</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Digit2" x="84" y="0">
+              <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
+              <text class="keyboard-key-multi-label" x="10" y="15">@</text> 
+              <text class="keyboard-key-multi-label" x="10" y="30">2</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Digit3" x="126" y="0">
+              <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
+              <text class="keyboard-key-multi-label" x="10" y="15">#</text> 
+              <text class="keyboard-key-multi-label" x="10" y="30">3</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Digit4" x="168" y="0">
+              <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
+              <text class="keyboard-key-multi-label" x="10" y="15">$</text> 
+              <text class="keyboard-key-multi-label" x="10" y="30">4</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Digit5" x="210" y="0">
+              <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
+              <text class="keyboard-key-multi-label" x="10" y="15">%</text> 
+              <text class="keyboard-key-multi-label" x="10" y="30">5</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Digit6" x="252" y="0">
+              <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
+              <text class="keyboard-key-multi-label" x="10" y="15">^</text> 
+              <text class="keyboard-key-multi-label" x="10" y="30">6</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Digit7" x="294" y="0">
+              <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
+              <text class="keyboard-key-multi-label" x="10" y="15">&amp;</text> 
+              <text class="keyboard-key-multi-label" x="10" y="30">7</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Digit8" x="336" y="0">
+              <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
+              <text class="keyboard-key-multi-label" x="10" y="15">*</text> 
+              <text class="keyboard-key-multi-label" x="10" y="30">8</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Digit9" x="378" y="0">
+              <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
+              <text class="keyboard-key-multi-label" x="10" y="15">(</text> 
+              <text class="keyboard-key-multi-label" x="10" y="30">9</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Digit0" x="420" y="0">
+              <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
+              <text class="keyboard-key-multi-label" x="10" y="15">)</text> 
+              <text class="keyboard-key-multi-label" x="10" y="30">0</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Minus" x="462" y="0">
+              <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
+              <text class="keyboard-key-multi-label" x="10" y="15">&amp;</text> 
+              <text class="keyboard-key-multi-label" x="10" y="30">7</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Equal" x="504" y="0">
+              <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
+              <text class="keyboard-key-multi-label" x="10" y="15">&amp;</text> 
+              <text class="keyboard-key-multi-label" x="10" y="30">7</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Backspace" x="546" y="0">
+              <rect class="keyboard-button" x="0" y="0" width="90" height="40"></rect> 
+              <text class="keyboard-key-mod-label" x="12" y="25">Backspace</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Tab" x="0" y="42">
+              <rect class="keyboard-button" x="0" y="0" width="60" height="40"></rect> 
+              <text class="keyboard-key-mod-label" x="18" y="25">Tab</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="KeyQ" x="42" y="42">
+              <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
+              <text class="keyboard-key-single-label" x="10" y="15">)</text> 
+            </svg>
+            <svg class="keyboard-key" data-key="Backslash" x="0" y="42">
+              <rect class="keyboard-button" x="0" y="0" width="60" height="40"></rect> 
+              <text class="keyboard-key-multi-label" x="10" y="15">|</text> 
+              <text class="keyboard-key-multi-label" x="10" y="30">\</text> 
+            </svg>
+          </svg>
+        </svg>
+      </div>
+      <div id="output"></div>
+    </div>
   </body>
 </html>
