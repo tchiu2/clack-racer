@@ -6,10 +6,18 @@ class GameView {
     this.inputEventHandler = this.inputEventHandler.bind(this);
 
     this.bindInputListeners();
+    this.displayPassage(this.game);
+  }
+
+  displayPassage(game) {
+    const passageDiv = document.createElement('div');
+    const passage = document.createTextNode(game.passage.trim());
+    passageDiv.appendChild(passage);
+    document.getElementById('passage-container').appendChild(passageDiv);
   }
 
   inputEventHandler(e) {
-    this.game.userInput = e.target.value;
+    this.game.receiveUserInput(e);
     document.getElementById("output").innerHTML = this.game.showStatus();
   }
 
