@@ -1,56 +1,62 @@
+
 class GameView {
   constructor(game, ctx) {
     this.ctx = ctx;
     this.game = game;
 
-    this.inputEventHandler = this.inputEventHandler.bind(this);
+    this.container = document.getElementById('passage-container');
+    this.userInput = document.getElementById('user-input');
+    this.startBtn = document.getElementById('start');
 
-    this.bindInputListeners();
-    this.displayPassage();
+    this.startBtn.addEventListener('click', this.start);
   }
 
   displayPassage() {
-    const completedPassageDiv = document.createElement('span');
-    const remainingPassageDiv = document.createElement('span');
-    const completedPassage = document.createTextNode(this.game.userInput);
-    const remainingPassage = document.createTextNode(this.game.remainingPassage.trim());
-    const container = document.getElementById('passage-container');
-
-    while (container.firstChild) {
-      container.removeChild(container.firstChild);
-    }
-
-    completedPassageDiv.id = "completed-passage";
-    remainingPassageDiv.id = "remaining-passage";
-
-    completedPassageDiv.appendChild(completedPassage);
-    remainingPassageDiv.appendChild(remainingPassage);
-    
-    document.getElementById('passage-container').appendChild(completedPassageDiv);
-    document.getElementById('passage-container').appendChild(remainingPassageDiv);
+    this.container.innerHTML = `
+      <span id="completed-passage">
+        ${this.game.userInput}
+      </span>
+      <span id="remaining-passage">
+        ${this.game.remainingPassage}
+      </span>
+    `
   }
 
-  inputEventHandler(e) {
+  inputEventHandler = e => {
     this.game.receiveUserInput(e);
     this.displayPassage();
-  }
+  };
 
-  handleKeydown(e) {
-    e.code === 'Tab' ? e.preventDefault() : null;
+  handleKey = action => e => {
+    e.code === 'Tab' && e.preventDefault();
     const key = document.querySelector(`.keyboard-key[data-key=${e.code}]`)
-    key ? key.classList.add('pressed') : null;
-  }
-
-  handleKeyup(e) {
-    e.code === 'Tab' ? e.preventDefault() : null;
-    const key = document.querySelector(`.keyboard-key[data-key=${e.code}]`)
-    key ? key.classList.remove('pressed') : null;
-  }
+    key && key.classList[action]('pressed');
+  };
 
   bindInputListeners() {
-    document.getElementById("user-input").oninput=this.inputEventHandler;
-    document.getElementById("user-input").addEventListener('keydown', this.handleKeydown);
-    document.getElementById("user-input").addEventListener('keyup', this.handleKeyup);
+    this.userInput.addEventListener('input', this.inputEventHandler);
+    this.userInput.addEventListener('keydown', this.handleKey('add'));
+    this.userInput.addEventListener('keyup', this.handleKey('remove'));
+  }
+
+  beginCountdown = time => {
+    const timer = setInterval(() => {
+      console.log(time);
+      time--;
+      if (time <= 0) {
+        clearInterval(timer);
+        this.game.startRace();
+        this.userInput.focus();
+      }
+    }, 1000);
+  }
+
+  start = e => {
+    e.preventDefault();
+    this.bindInputListeners();
+    this.game.getPassage();
+    this.displayPassage();
+    this.beginCountdown(3);
   }
 }
 

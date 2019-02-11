@@ -1,19 +1,26 @@
 import { randomPassage } from './passages';
+import {
+  calculateElapsedTime,
+  calculateWPM,
+  calculateAccuracy,
+} from './util';
 
 class Game {
   constructor() {
-    this.passage = randomPassage();
+    this.passage = "";
     this.userInput = "";
+    this.remainingPassage = "";
     this.currentFragment = "";
-    this.remainingPassage = this.passage;
     this.keystrokes = 0;
+    this.startTime = "";
+    this.finishTime = "";
   }
 
   receiveUserInput(e) {
     this.keystrokes++;
     this.currentFragment = e.target.value;
-    this.userInput.concat(this.currentFragment) === this.passage.slice(0, this.userInput.length + this.currentFragment.length) ? this.updateUserInput() : console.log(false);
-    this.showStatus();
+    this.userInput.concat(this.currentFragment) === this.passage.slice(0, this.userInput.length + this.currentFragment.length) && this.updateUserInput();
+    this.checkStatus();
   }
 
   updateUserInput() {
@@ -24,11 +31,30 @@ class Game {
     }
   }
 
-  showStatus() {
-    this.passage === this.userInput ? console.log(`You finished in ${this.keystrokes} keystrokes`) : null;
-    console.log(`remainingPassage: ${this.remainingPassage} userInput: ${this.userInput}`);
+  getPassage() {
+    this.passage = randomPassage(); 
+    this.remainingPassage = this.passage;
   }
 
+  startRace = passage => {
+    this.startTime = new Date();
+  }
+
+  checkStatus() {
+    this.passage === this.userInput && this.finishRace();
+  }
+
+  finishRace() {
+    this.finishTime = new Date(); 
+    const totalTime = calculateElapsedTime(this.startTime, this.finishTime);
+    console.log(`Your WPM is ${calculateWPM(totalTime, this.passage)}`);
+    console.log(`Elapsed time: ${totalTime}s`);
+    console.log(`Accuracy: ${calculateAccuracy(this.keystrokes, this.passage)}%`);
+  }
+
+  isFinished() {
+    this.finishTime !== "";
+  }
 }
 
 Game.DIM_X = 500;

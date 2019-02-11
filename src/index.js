@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.height = Game.DIM_Y;
 
   const ctx = canvas.getContext("2d");
-  ctx.fillStyle = 'green';
+  ctx.fillStyle = 'lightgrey';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   const game = new Game();
