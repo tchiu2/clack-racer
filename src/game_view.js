@@ -1,13 +1,19 @@
+import { showResults } from './results';
+import { keyboardHTML } from './keyboard'; 
+
 class GameView {
   constructor(game, ctx) {
     this.ctx = ctx;
     this.game = game;
+    this.keyboardShown = false;
 
     this.container = document.getElementById('passage-container');
     this.userInput = document.getElementById('user-input');
     this.startBtn = document.getElementById('start');
+    this.toggleKeyboardShow = document.getElementById('keyboard-toggle');
 
     this.startBtn.addEventListener('click', this.start);
+    this.toggleKeyboardShow.addEventListener('click', this.toggleKeyboardDisplay);
     this.container.addEventListener('click', () => this.userInput.focus());
     this.userInput.disabled = true;
   }
@@ -27,6 +33,13 @@ class GameView {
     const completed = Array.from(this.game.userInput, c => `<span class="letter completed">${c}</span>`).join('');
     const remaining = Array.from(this.game.remainingPassage, (c, i) => `<span class="letter remaining ${i === 0 ? "cursor" : ""}">${c}</span>`).join('');
     this.container.innerHTML = `${completed}${remaining}`;
+  }
+
+  toggleKeyboardDisplay = e => {
+    const main = document.getElementById('main') 
+    main.lastElementChild.innerHTML = (this.keyboardShown ? "" : keyboardHTML);
+    this.keyboardShown = !this.keyboardShown;
+    console.log(this.keyboardShown);
   }
 
   reset() {
@@ -75,12 +88,15 @@ class GameView {
     this.bindInputListeners();
     this.game.getPassage();
     this.displayPassageLetters();
+    this.startBtn.disabled = true;
     this.beginCountdown(3);
   }
 
   completeRace() {
-    this.game.finishRace();
+    this.game.calculateResults();
     this.userInput.disabled = true;
+    this.startBtn.disabled = false;
+    showResults(this.game.results, this.container); 
   }
 }
 

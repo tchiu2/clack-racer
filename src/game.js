@@ -14,6 +14,7 @@ class Game {
     this.keystrokes = 0;
     this.startTime = "";
     this.finishTime = "";
+    this.results = {};
   }
 
   receiveUserInput(e) {
@@ -47,15 +48,20 @@ class Game {
   }
 
   checkStatus() {
-    this.passage === this.userInput && this.finishRace();
+    this.passage === this.userInput && this.calculateResults();
   }
 
-  finishRace() {
+  calculateResults() {
     this.finishTime = new Date(); 
     const totalTime = calculateElapsedTime(this.startTime, this.finishTime);
-    console.log(`Your WPM is ${calculateWPM(totalTime, this.passage)}`);
-    console.log(`Elapsed time: ${totalTime}s`);
-    console.log(`Accuracy: ${calculateAccuracy(this.keystrokes, this.passage)}%`);
+    //console.log(`Your WPM is ${calculateWPM(totalTime, this.passage)}`);
+    //console.log(`Elapsed time: ${totalTime}s`);
+    //console.log(`Accuracy: ${calculateAccuracy(this.keystrokes, this.passage)}%`);
+    this.results = {
+      wpm: calculateWPM(totalTime, this.passage),
+      time: totalTime,
+      accuracy: calculateAccuracy(this.keystrokes, this.passage),
+    };
   }
 
   isFinished() {
