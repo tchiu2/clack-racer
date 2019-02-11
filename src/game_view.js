@@ -1,4 +1,3 @@
-
 class GameView {
   constructor(game, ctx) {
     this.ctx = ctx;
@@ -9,6 +8,8 @@ class GameView {
     this.startBtn = document.getElementById('start');
 
     this.startBtn.addEventListener('click', this.start);
+    this.container.addEventListener('click', () => this.userInput.focus());
+    this.userInput.disabled = true;
   }
 
   displayPassage() {
@@ -22,9 +23,24 @@ class GameView {
     `
   }
 
+  displayPassageLetters() {
+    const completed = Array.from(this.game.userInput, c => `<span class="letter completed">${c}</span>`).join('');
+    const remaining = Array.from(this.game.remainingPassage, (c, i) => `<span class="letter remaining ${i === 0 ? "cursor" : ""}">${c}</span>`).join('');
+    this.container.innerHTML = `${completed}${remaining}`;
+  }
+
+  reset() {
+    while (this.container.firstChild) {
+      this.container.removeChild(this.container.firstChild);
+    }
+    this.game.reset();
+  }
+
   inputEventHandler = e => {
     this.game.receiveUserInput(e);
-    this.displayPassage();
+    this.userInput.value = "";
+    this.displayPassageLetters();
+    this.game.isFinished() && this.completeRace();
   };
 
   handleKey = action => e => {
@@ -45,18 +61,25 @@ class GameView {
       time--;
       if (time <= 0) {
         clearInterval(timer);
-        this.game.startRace();
+        this.userInput.disabled = false;
         this.userInput.focus();
+        this.game.startRace();
       }
     }, 1000);
   }
 
   start = e => {
     e.preventDefault();
+    this.reset();
     this.bindInputListeners();
     this.game.getPassage();
-    this.displayPassage();
+    this.displayPassageLetters();
     this.beginCountdown(3);
+  }
+
+  completeRace() {
+    this.game.finishRace();
+    this.userInput.disabled = true;
   }
 }
 

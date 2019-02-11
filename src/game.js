@@ -20,23 +20,30 @@ class Game {
     this.keystrokes++;
     this.currentFragment = e.target.value;
     this.userInput.concat(this.currentFragment) === this.passage.slice(0, this.userInput.length + this.currentFragment.length) && this.updateUserInput();
-    this.checkStatus();
+    //this.checkStatus();
   }
 
   updateUserInput() {
-    if (this.currentFragment[this.currentFragment.length - 1] === " " || this.userInput.length + this.currentFragment.length === this.passage.length) {
+    //if (this.currentFragment[this.currentFragment.length - 1] === " " || this.userInput.length + this.currentFragment.length === this.passage.length) {
       this.userInput += this.currentFragment;
       this.remainingPassage = this.passage.slice(this.userInput.length);
       document.getElementById("user-input").value = "";
-    }
+    //}
   }
 
-  getPassage() {
-    this.passage = randomPassage(); 
+  getPassage(passage) {
+    this.passage = passage || randomPassage(); 
     this.remainingPassage = this.passage;
   }
 
-  startRace = passage => {
+  reset() {
+    this.userInput = "";
+    this.keystrokes = 0;
+    this.startTime = "";
+    this.finishTime = "";
+  }
+
+  startRace = () => {
     this.startTime = new Date();
   }
 
@@ -53,7 +60,7 @@ class Game {
   }
 
   isFinished() {
-    this.finishTime !== "";
+    return this.passage === this.userInput;
   }
 }
 

@@ -1,6 +1,6 @@
 .main {
   display: flex;
-  font-family: "Source Sans Pro", "Arial", sans-serif;
+  font-family: sans-serif;
   flex-direction: column;
   width: 50%;
   height: 60%;
@@ -32,6 +32,7 @@
 }
 
 #passage-container {
+  font-family: "Lucida Console", "Monaco", monospace;
   padding: 8px;
 	font-size: 1.2rem;
   line-height: 1.6rem;
@@ -41,13 +42,50 @@
   color: green;
 }
 
+.completed {
+  color: green;
+}
+
+.cursor {
+  -webkit-animation: 0.75s blink step-end infinite;
+  animation: 0.75s blink step-end infinite;
+  color: white;
+}
+
+@keyframes "blink" {
+  from, to {
+    color: white;
+  }
+  50% {
+    color: black;
+  }
+}
+
+@-webkit-keyframes "blink" {
+  from, to {
+    color: white;
+    background: black;
+  }
+  50% {
+    color: black;
+    background: transparent;
+  }
+}
+
 #user-input {
+  display: hidden;
   margin: 10px 0;
 	padding: 2px 5px;
   line-height: 24px;
   font-size: 18px;
   border: 1px solid #ccc;
   border-radius: 2px;
+}
+
+#user-input { 
+  height: 0px;
+  padding: 0;
+  border: none;
 }
 
 .keyboard-container {

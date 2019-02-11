@@ -8,5 +8,5 @@ export const calculateWPM = (time, passage) => {
 
 export const calculateAccuracy = (keystrokes, passage) => {
   const length = passage.length;
-  return 100 - (parseFloat((keystrokes - length) / length).toFixed(3)) * 100;
+  return 100 - (parseFloat(((keystrokes - length) * 0.75) / length).toFixed(3)) * 100;
 };
