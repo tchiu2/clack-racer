@@ -6,19 +6,33 @@ class GameView {
     this.inputEventHandler = this.inputEventHandler.bind(this);
 
     this.bindInputListeners();
-    this.displayPassage(this.game);
+    this.displayPassage();
   }
 
-  displayPassage(game) {
-    const passageDiv = document.createElement('div');
-    const passage = document.createTextNode(game.passage.trim());
-    passageDiv.appendChild(passage);
-    document.getElementById('passage-container').appendChild(passageDiv);
+  displayPassage() {
+    const completedPassageDiv = document.createElement('span');
+    const remainingPassageDiv = document.createElement('span');
+    const completedPassage = document.createTextNode(this.game.userInput);
+    const remainingPassage = document.createTextNode(this.game.remainingPassage.trim());
+    const container = document.getElementById('passage-container');
+
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+
+    completedPassageDiv.id = "completed-passage";
+    remainingPassageDiv.id = "remaining-passage";
+
+    completedPassageDiv.appendChild(completedPassage);
+    remainingPassageDiv.appendChild(remainingPassage);
+    
+    document.getElementById('passage-container').appendChild(completedPassageDiv);
+    document.getElementById('passage-container').appendChild(remainingPassageDiv);
   }
 
   inputEventHandler(e) {
     this.game.receiveUserInput(e);
-    document.getElementById("output").innerHTML = this.game.showStatus();
+    this.displayPassage();
   }
 
   handleKeydown(e) {

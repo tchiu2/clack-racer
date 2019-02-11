@@ -2,14 +2,22 @@
   display: flex;
   font-family: "Source Sans Pro", "Arial", sans-serif;
   flex-direction: column;
-  width: 780px;
-  height: 600px;
+  width: 50%;
+  height: 60%;
   margin: 0 auto;
+}
+
+#passage-container {
+  padding: 8px;
+}
+
+#completed-passage { 
+  color: green;
 }
 
 .keyboard-container {
   width: 100%;
-  height: 300px;
+  height: 100%;
   background-color: #ccc;
 }
 
@@ -38,5 +46,5 @@ text[class*="-label"] {
 }
 
 .pressed {
-  fill: purple; 
+  fill: yellow; 
 }
