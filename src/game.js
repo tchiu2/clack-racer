@@ -20,7 +20,6 @@ class Game {
     this.keystrokes++;
     this.currentFragment = e.target.value;
     this.userInput.concat(this.currentFragment) === this.passage.slice(0, this.userInput.length + this.currentFragment.length) && this.updateUserInput();
-    //this.checkStatus();
   }
 
   updateUserInput() {

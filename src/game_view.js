@@ -64,6 +64,7 @@ class GameView {
         this.userInput.disabled = false;
         this.userInput.focus();
         this.game.startRace();
+        console.log("GO");
       }
     }, 1000);
   }
