@@ -24,11 +24,9 @@ class Game {
   }
 
   updateUserInput() {
-    //if (this.currentFragment[this.currentFragment.length - 1] === " " || this.userInput.length + this.currentFragment.length === this.passage.length) {
-      this.userInput += this.currentFragment;
-      this.remainingPassage = this.passage.slice(this.userInput.length);
-      document.getElementById("user-input").value = "";
-    //}
+    this.userInput += this.currentFragment;
+    this.remainingPassage = this.passage.slice(this.userInput.length);
+    document.getElementById("user-input").value = "";
   }
 
   getPassage(passage) {
@@ -54,9 +52,6 @@ class Game {
   calculateResults() {
     this.finishTime = new Date(); 
     const totalTime = calculateElapsedTime(this.startTime, this.finishTime);
-    //console.log(`Your WPM is ${calculateWPM(totalTime, this.passage)}`);
-    //console.log(`Elapsed time: ${totalTime}s`);
-    //console.log(`Accuracy: ${calculateAccuracy(this.keystrokes, this.passage)}%`);
     this.results = {
       wpm: calculateWPM(totalTime, this.passage),
       time: totalTime,
@@ -70,6 +65,6 @@ class Game {
 }
 
 Game.DIM_X = 500;
-Game.DIM_Y = 150;
+Game.DIM_Y = 300;
 
 export default Game;

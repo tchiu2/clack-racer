@@ -86,6 +86,17 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/countdown.js":
+/*!**************************!*\
+  !*** ./src/countdown.js ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
 /***/ "./src/game.js":
 /*!*********************!*\
   !*** ./src/game.js ***!
@@ -140,10 +151,9 @@ function () {
   }, {
     key: "updateUserInput",
     value: function updateUserInput() {
-      //if (this.currentFragment[this.currentFragment.length - 1] === " " || this.userInput.length + this.currentFragment.length === this.passage.length) {
       this.userInput += this.currentFragment;
       this.remainingPassage = this.passage.slice(this.userInput.length);
-      document.getElementById("user-input").value = ""; //}
+      document.getElementById("user-input").value = "";
     }
   }, {
     key: "getPassage",
@@ -168,10 +178,7 @@ function () {
     key: "calculateResults",
     value: function calculateResults() {
       this.finishTime = new Date();
-      var totalTime = Object(_util__WEBPACK_IMPORTED_MODULE_1__["calculateElapsedTime"])(this.startTime, this.finishTime); //console.log(`Your WPM is ${calculateWPM(totalTime, this.passage)}`);
-      //console.log(`Elapsed time: ${totalTime}s`);
-      //console.log(`Accuracy: ${calculateAccuracy(this.keystrokes, this.passage)}%`);
-
+      var totalTime = Object(_util__WEBPACK_IMPORTED_MODULE_1__["calculateElapsedTime"])(this.startTime, this.finishTime);
       this.results = {
         wpm: Object(_util__WEBPACK_IMPORTED_MODULE_1__["calculateWPM"])(totalTime, this.passage),
         time: totalTime,
@@ -189,7 +196,7 @@ function () {
 }();
 
 Game.DIM_X = 500;
-Game.DIM_Y = 150;
+Game.DIM_Y = 300;
 /* harmony default export */ __webpack_exports__["default"] = (Game);
 
 /***/ }),
@@ -205,6 +212,9 @@ Game.DIM_Y = 150;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _results__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./results */ "./src/results.js");
 /* harmony import */ var _keyboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./keyboard */ "./src/keyboard.js");
+/* harmony import */ var _countdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./countdown */ "./src/countdown.js");
+/* harmony import */ var _countdown__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_countdown__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _racer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./racer */ "./src/racer.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -212,6 +222,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
@@ -228,7 +240,6 @@ function () {
       var main = document.getElementById('main');
       main.lastElementChild.innerHTML = _this.keyboardShown ? "" : _keyboard__WEBPACK_IMPORTED_MODULE_1__["keyboardHTML"];
       _this.keyboardShown = !_this.keyboardShown;
-      console.log(_this.keyboardShown);
     });
 
     _defineProperty(this, "inputEventHandler", function (e) {
@@ -237,6 +248,10 @@ function () {
       _this.userInput.value = "";
 
       _this.displayPassageLetters();
+
+      _this.racer.update();
+
+      _this.racer.render();
 
       _this.game.isFinished() && _this.completeRace();
     });
@@ -250,9 +265,11 @@ function () {
     });
 
     _defineProperty(this, "beginCountdown", function (time) {
+      _this.timer.hidden = false;
+      _this.timer.innerHTML += "".concat(time, "...");
       var timer = setInterval(function () {
-        console.log(time);
         time--;
+        _this.timer.innerHTML += time === 0 ? "GO!" : "".concat(time, "...");
 
         if (time <= 0) {
           clearInterval(timer);
@@ -261,8 +278,6 @@ function () {
           _this.userInput.focus();
 
           _this.game.startRace();
-
-          console.log("GO");
         }
       }, 1000);
     });
@@ -290,12 +305,18 @@ function () {
     this.userInput = document.getElementById('user-input');
     this.startBtn = document.getElementById('start');
     this.toggleKeyboardShow = document.getElementById('keyboard-toggle');
+    this.timer = document.getElementById('timer');
     this.startBtn.addEventListener('click', this.start);
     this.toggleKeyboardShow.addEventListener('click', this.toggleKeyboardDisplay);
     this.container.addEventListener('click', function () {
       return _this.userInput.focus();
     });
     this.userInput.disabled = true;
+    this.racer = new _racer__WEBPACK_IMPORTED_MODULE_3__["default"]({
+      context: this.ctx,
+      width: 100,
+      height: 120
+    });
   }
 
   _createClass(GameView, [{
@@ -321,6 +342,8 @@ function () {
         this.container.removeChild(this.container.firstChild);
       }
 
+      this.timer.innerHTML = "";
+      this.timer.hidden = true;
       this.game.reset();
     }
   }, {
@@ -402,6 +425,50 @@ var randomPassage = function randomPassage() {
   var randIndex = Math.floor(Math.random() * PASSAGES.length);
   return PASSAGES[randIndex];
 };
+
+/***/ }),
+
+/***/ "./src/racer.js":
+/*!**********************!*\
+  !*** ./src/racer.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var Racer = function Racer(options) {
+  var _this = this;
+
+  _classCallCheck(this, Racer);
+
+  _defineProperty(this, "update", function () {
+    _this.frameIndex = _this.frameIndex < _this.numberOfFrames - 1 ? _this.frameIndex + 1 : 1;
+  });
+
+  _defineProperty(this, "render", function () {
+    _this.context.clearRect(0, 0, _this.width, _this.height);
+
+    _this.context.drawImage(_this.image, _this.frameIndex * 240, 0, 240, 180, 0, 0, _this.width, _this.height);
+  });
+
+  var racerImage = new Image();
+  racerImage.src = "./images/brown_switch.png";
+  racerImage.addEventListener('load', this.render);
+  this.context = options.context;
+  this.width = options.width;
+  this.height = options.height;
+  this.image = racerImage;
+  this.frameIndex = 0;
+  this.numberOfFrames = 9;
+};
+
+;
+/* harmony default export */ __webpack_exports__["default"] = (Racer);
 
 /***/ }),
 

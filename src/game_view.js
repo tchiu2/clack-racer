@@ -1,5 +1,7 @@
 import { showResults } from './results';
 import { keyboardHTML } from './keyboard'; 
+import { showCountdown } from './countdown';
+import Racer from './racer';
 
 class GameView {
   constructor(game, ctx) {
@@ -11,11 +13,18 @@ class GameView {
     this.userInput = document.getElementById('user-input');
     this.startBtn = document.getElementById('start');
     this.toggleKeyboardShow = document.getElementById('keyboard-toggle');
+    this.timer = document.getElementById('timer');
 
     this.startBtn.addEventListener('click', this.start);
     this.toggleKeyboardShow.addEventListener('click', this.toggleKeyboardDisplay);
     this.container.addEventListener('click', () => this.userInput.focus());
     this.userInput.disabled = true;
+
+    this.racer = new Racer({
+      context: this.ctx,
+      width: 100,
+      height: 120,
+    });
   }
 
   displayPassage() {
@@ -39,13 +48,14 @@ class GameView {
     const main = document.getElementById('main') 
     main.lastElementChild.innerHTML = (this.keyboardShown ? "" : keyboardHTML);
     this.keyboardShown = !this.keyboardShown;
-    console.log(this.keyboardShown);
   }
 
   reset() {
     while (this.container.firstChild) {
       this.container.removeChild(this.container.firstChild);
     }
+    this.timer.innerHTML = "";
+    this.timer.hidden = true;
     this.game.reset();
   }
 
@@ -53,6 +63,8 @@ class GameView {
     this.game.receiveUserInput(e);
     this.userInput.value = "";
     this.displayPassageLetters();
+    this.racer.update();
+    this.racer.render();
     this.game.isFinished() && this.completeRace();
   };
 
@@ -69,15 +81,16 @@ class GameView {
   }
 
   beginCountdown = time => {
+    this.timer.hidden = false;
+    this.timer.innerHTML += `${time}...`;
     const timer = setInterval(() => {
-      console.log(time);
       time--;
+      this.timer.innerHTML += (time === 0 ? "GO!" : `${time}...`);
       if (time <= 0) {
         clearInterval(timer);
         this.userInput.disabled = false;
         this.userInput.focus();
         this.game.startRace();
-        console.log("GO");
       }
     }, 1000);
   }
