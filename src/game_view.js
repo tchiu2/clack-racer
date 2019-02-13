@@ -22,8 +22,8 @@ class GameView {
 
     this.racer = new Racer({
       context: this.ctx,
-      width: 100,
-      height: 120,
+      width: this.ctx.canvas.width * 0.12,
+      height: this.ctx.canvas.height * 0.12 * 2,
     });
   }
 
@@ -63,7 +63,7 @@ class GameView {
     this.game.receiveUserInput(e);
     this.userInput.value = "";
     this.displayPassageLetters();
-    this.racer.update();
+    this.racer.update(this.game.percentComplete());
     this.racer.render();
     this.game.isFinished() && this.completeRace();
   };
@@ -82,11 +82,12 @@ class GameView {
 
   beginCountdown = time => {
     this.timer.hidden = false;
-    this.timer.innerHTML += `${time}...`;
+    this.timer.innerHTML = `${time}`;
     const timer = setInterval(() => {
       time--;
-      this.timer.innerHTML += (time === 0 ? "GO!" : `${time}...`);
+      this.timer.innerHTML = (time === 0 ? "GO!" : `${time}`);
       if (time <= 0) {
+        this.timer.classList.add('fade-out');
         clearInterval(timer);
         this.userInput.disabled = false;
         this.userInput.focus();

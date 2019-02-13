@@ -190,13 +190,16 @@ function () {
     value: function isFinished() {
       return this.passage === this.userInput;
     }
+  }, {
+    key: "percentComplete",
+    value: function percentComplete() {
+      return this.userInput.length / this.passage.length;
+    }
   }]);
 
   return Game;
 }();
 
-Game.DIM_X = 500;
-Game.DIM_Y = 300;
 /* harmony default export */ __webpack_exports__["default"] = (Game);
 
 /***/ }),
@@ -249,7 +252,7 @@ function () {
 
       _this.displayPassageLetters();
 
-      _this.racer.update();
+      _this.racer.update(_this.game.percentComplete());
 
       _this.racer.render();
 
@@ -266,12 +269,14 @@ function () {
 
     _defineProperty(this, "beginCountdown", function (time) {
       _this.timer.hidden = false;
-      _this.timer.innerHTML += "".concat(time, "...");
+      _this.timer.innerHTML = "".concat(time);
       var timer = setInterval(function () {
         time--;
-        _this.timer.innerHTML += time === 0 ? "GO!" : "".concat(time, "...");
+        _this.timer.innerHTML = time === 0 ? "GO!" : "".concat(time);
 
         if (time <= 0) {
+          _this.timer.classList.add('fade-out');
+
           clearInterval(timer);
           _this.userInput.disabled = false;
 
@@ -314,8 +319,8 @@ function () {
     this.userInput.disabled = true;
     this.racer = new _racer__WEBPACK_IMPORTED_MODULE_3__["default"]({
       context: this.ctx,
-      width: 100,
-      height: 120
+      width: this.ctx.canvas.width * 0.12,
+      height: this.ctx.canvas.height * 0.12 * 2
     });
   }
 
@@ -385,11 +390,12 @@ __webpack_require__.r(__webpack_exports__);
 
 document.addEventListener("DOMContentLoaded", function () {
   var canvas = document.getElementById("canvas");
-  canvas.width = _game__WEBPACK_IMPORTED_MODULE_0__["default"].DIM_X;
-  canvas.height = _game__WEBPACK_IMPORTED_MODULE_0__["default"].DIM_Y;
+  canvas.height = window.innerHeight * 0.3;
+  canvas.width = canvas.height * (16 / 9);
   var ctx = canvas.getContext("2d");
   ctx.fillStyle = 'lightgrey';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.rect(0, 0, canvas.width, canvas.height);
+  ctx.stroke();
   var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"]();
   new _game_view__WEBPACK_IMPORTED_MODULE_1__["default"](game, ctx);
 });
@@ -446,14 +452,15 @@ var Racer = function Racer(options) {
 
   _classCallCheck(this, Racer);
 
-  _defineProperty(this, "update", function () {
+  _defineProperty(this, "update", function (position) {
     _this.frameIndex = _this.frameIndex < _this.numberOfFrames - 1 ? _this.frameIndex + 1 : 1;
+    _this.position = position;
   });
 
   _defineProperty(this, "render", function () {
-    _this.context.clearRect(0, 0, _this.width, _this.height);
+    _this.context.clearRect(_this.position * _this.context.canvas.width * 0.8 + _this.context.canvas.width * 0.05, _this.context.canvas.height * 0.1, _this.width, _this.height);
 
-    _this.context.drawImage(_this.image, _this.frameIndex * 240, 0, 240, 180, 0, 0, _this.width, _this.height);
+    _this.context.drawImage(_this.image, _this.frameIndex * 240, 0, 240, 180, _this.position * _this.context.canvas.width * 0.8 + _this.context.canvas.width * 0.05, _this.context.canvas.height * 0.1, _this.width, _this.height);
   });
 
   var racerImage = new Image();
@@ -463,6 +470,7 @@ var Racer = function Racer(options) {
   this.width = options.width;
   this.height = options.height;
   this.image = racerImage;
+  this.position = 0;
   this.frameIndex = 0;
   this.numberOfFrames = 9;
 };

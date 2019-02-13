@@ -3,12 +3,13 @@ import GameView from './game_view';
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("canvas");
-  canvas.width = Game.DIM_X;
-  canvas.height = Game.DIM_Y;
+  canvas.height = window.innerHeight * 0.3;
+  canvas.width = canvas.height * (16/9);
 
   const ctx = canvas.getContext("2d");
   ctx.fillStyle = 'lightgrey';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.rect(0, 0, canvas.width, canvas.height);
+  ctx.stroke();
 
   const game = new Game();
   new GameView(game, ctx);

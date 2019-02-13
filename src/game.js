@@ -62,9 +62,10 @@ class Game {
   isFinished() {
     return this.passage === this.userInput;
   }
-}
 
-Game.DIM_X = 500;
-Game.DIM_Y = 300;
+  percentComplete() {
+    return this.userInput.length / this.passage.length
+  }
+}
 
 export default Game;
