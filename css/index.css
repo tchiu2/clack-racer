@@ -3,14 +3,12 @@
   font-family: sans-serif;
   flex-direction: column;
   width: 50%;
-  height: 60%;
   margin: 0 auto;
   position: relative;
 }
 
-#main:last-child {
+#main div:last-child {
 	margin-top: 10px;
-  height: 35%;
   max-height: 320px;
 }
 
@@ -20,12 +18,16 @@
   padding: 10px 0;
 }
 
+.canvas-container {
+  width: 100%;
+  box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.3);
+}
+
 .button-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-  height: 100%;
   min-height: 56px;
 }
 

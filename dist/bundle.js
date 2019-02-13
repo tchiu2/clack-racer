@@ -391,7 +391,7 @@ __webpack_require__.r(__webpack_exports__);
 document.addEventListener("DOMContentLoaded", function () {
   var canvas = document.getElementById("canvas");
   canvas.height = window.innerHeight * 0.3;
-  canvas.width = canvas.height * (16 / 9);
+  canvas.width = canvas.height * (26 / 9);
   var ctx = canvas.getContext("2d");
   ctx.fillStyle = 'lightgrey';
   ctx.rect(0, 0, canvas.width, canvas.height);
