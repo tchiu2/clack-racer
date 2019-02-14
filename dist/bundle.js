@@ -86,17 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/countdown.js":
-/*!**************************!*\
-  !*** ./src/countdown.js ***!
-  \**************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
 /***/ "./src/game.js":
 /*!*********************!*\
   !*** ./src/game.js ***!
@@ -215,9 +204,7 @@ function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _results__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./results */ "./src/results.js");
 /* harmony import */ var _keyboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./keyboard */ "./src/keyboard.js");
-/* harmony import */ var _countdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./countdown */ "./src/countdown.js");
-/* harmony import */ var _countdown__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_countdown__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _racer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./racer */ "./src/racer.js");
+/* harmony import */ var _racer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./racer */ "./src/racer.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -225,7 +212,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -268,14 +254,15 @@ function () {
     });
 
     _defineProperty(this, "beginCountdown", function (time) {
-      _this.timer.hidden = false;
-      _this.timer.innerHTML = "".concat(time);
+      _this.drawCountdown(time);
+
       var timer = setInterval(function () {
         time--;
-        _this.timer.innerHTML = time === 0 ? "GO!" : "".concat(time);
+
+        _this.drawCountdown(time);
 
         if (time <= 0) {
-          _this.timer.classList.add('fade-out');
+          _this.drawCountdown(time);
 
           clearInterval(timer);
           _this.userInput.disabled = false;
@@ -285,6 +272,22 @@ function () {
           _this.game.startRace();
         }
       }, 1000);
+    });
+
+    _defineProperty(this, "drawCountdown", function (time) {
+      var fontSize = _this.ctx.canvas.width * 0.04;
+
+      _this.ctx.clearRect(_this.ctx.canvas.width * 0.5 - fontSize, _this.ctx.canvas.height - fontSize * 1.5, 35, 35);
+
+      _this.ctx.fillStyle = "#eee";
+
+      _this.ctx.fillRect(0, _this.ctx.canvas.height - fontSize * 2, _this.ctx.canvas.width, _this.ctx.canvas.height);
+
+      _this.ctx.fillStyle = "black";
+      _this.ctx.font = "".concat(fontSize, "px sans-serif");
+      _this.ctx.textBaseline = "top";
+
+      _this.ctx.fillText(time <= 0 ? "Go!" : " ".concat(time, " "), _this.ctx.canvas.width * 0.5 - fontSize, _this.ctx.canvas.height - fontSize * 1.5);
     });
 
     _defineProperty(this, "start", function (e) {
@@ -297,6 +300,8 @@ function () {
       _this.game.getPassage();
 
       _this.displayPassageLetters();
+
+      _this.displayRacer();
 
       _this.startBtn.disabled = true;
 
@@ -317,17 +322,21 @@ function () {
       return _this.userInput.focus();
     });
     this.userInput.disabled = true;
-    this.racer = new _racer__WEBPACK_IMPORTED_MODULE_3__["default"]({
-      context: this.ctx,
-      width: this.ctx.canvas.width * 0.12,
-      height: this.ctx.canvas.height * 0.12 * 2
-    });
   }
 
   _createClass(GameView, [{
     key: "displayPassage",
     value: function displayPassage() {
       this.container.innerHTML = "\n      <span id=\"completed-passage\">\n        ".concat(this.game.userInput, "\n      </span>\n      <span id=\"remaining-passage\">\n        ").concat(this.game.remainingPassage, "\n      </span>\n    ");
+    }
+  }, {
+    key: "displayRacer",
+    value: function displayRacer() {
+      this.racer = new _racer__WEBPACK_IMPORTED_MODULE_2__["default"]({
+        context: this.ctx,
+        width: this.ctx.canvas.width * 0.12,
+        height: this.ctx.canvas.height * 0.12 * 2
+      });
     }
   }, {
     key: "displayPassageLetters",
@@ -349,7 +358,9 @@ function () {
 
       this.timer.innerHTML = "";
       this.timer.hidden = true;
+      this.timer.classList.remove('fade-out');
       this.game.reset();
+      this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     }
   }, {
     key: "bindInputListeners",
@@ -390,12 +401,9 @@ __webpack_require__.r(__webpack_exports__);
 
 document.addEventListener("DOMContentLoaded", function () {
   var canvas = document.getElementById("canvas");
-  canvas.height = window.innerHeight * 0.3;
-  canvas.width = canvas.height * (26 / 9);
+  canvas.height = window.innerHeight * 0.2;
+  canvas.width = window.innerWidth * 0.5;
   var ctx = canvas.getContext("2d");
-  ctx.fillStyle = 'lightgrey';
-  ctx.rect(0, 0, canvas.width, canvas.height);
-  ctx.stroke();
   var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"]();
   new _game_view__WEBPACK_IMPORTED_MODULE_1__["default"](game, ctx);
 });

@@ -1,6 +1,5 @@
 import { showResults } from './results';
 import { keyboardHTML } from './keyboard'; 
-import { showCountdown } from './countdown';
 import Racer from './racer';
 
 class GameView {
@@ -19,12 +18,6 @@ class GameView {
     this.toggleKeyboardShow.addEventListener('click', this.toggleKeyboardDisplay);
     this.container.addEventListener('click', () => this.userInput.focus());
     this.userInput.disabled = true;
-
-    this.racer = new Racer({
-      context: this.ctx,
-      width: this.ctx.canvas.width * 0.12,
-      height: this.ctx.canvas.height * 0.12 * 2,
-    });
   }
 
   displayPassage() {
@@ -36,6 +29,14 @@ class GameView {
         ${this.game.remainingPassage}
       </span>
     `
+  }
+
+  displayRacer() {
+    this.racer = new Racer({
+      context: this.ctx,
+      width: this.ctx.canvas.width * 0.12,
+      height: this.ctx.canvas.height * 0.12 * 2,
+    });
   }
 
   displayPassageLetters() {
@@ -56,7 +57,9 @@ class GameView {
     }
     this.timer.innerHTML = "";
     this.timer.hidden = true;
+    this.timer.classList.remove('fade-out');
     this.game.reset();
+    this.ctx.clearRect(0,0, this.ctx.canvas.width, this.ctx.canvas.height);
   }
 
   inputEventHandler = e => {
@@ -81,13 +84,12 @@ class GameView {
   }
 
   beginCountdown = time => {
-    this.timer.hidden = false;
-    this.timer.innerHTML = `${time}`;
+    this.drawCountdown(time);
     const timer = setInterval(() => {
       time--;
-      this.timer.innerHTML = (time === 0 ? "GO!" : `${time}`);
+      this.drawCountdown(time);
       if (time <= 0) {
-        this.timer.classList.add('fade-out');
+        this.drawCountdown(time);
         clearInterval(timer);
         this.userInput.disabled = false;
         this.userInput.focus();
@@ -96,12 +98,39 @@ class GameView {
     }, 1000);
   }
 
+  drawCountdown = time => {
+    const fontSize = this.ctx.canvas.width * 0.04;
+
+    this.ctx.clearRect(
+      this.ctx.canvas.width * 0.5 - fontSize,
+      this.ctx.canvas.height - fontSize * 1.5,
+      35,
+      35);
+
+    this.ctx.fillStyle = "#eee";
+    this.ctx.fillRect(
+      0,
+      this.ctx.canvas.height - fontSize * 2,
+      this.ctx.canvas.width,
+      this.ctx.canvas.height);
+
+    this.ctx.fillStyle = "black";
+    this.ctx.font = `${fontSize}px sans-serif`;
+    this.ctx.textBaseline = "top";
+
+    this.ctx.fillText(
+      time <= 0 ? "Go!" : ` ${time} `, 
+      this.ctx.canvas.width * 0.5 - fontSize,
+      this.ctx.canvas.height - fontSize * 1.5);
+  }
+
   start = e => {
     e.preventDefault();
     this.reset();
     this.bindInputListeners();
     this.game.getPassage();
     this.displayPassageLetters();
+    this.displayRacer();
     this.startBtn.disabled = true;
     this.beginCountdown(3);
   }
