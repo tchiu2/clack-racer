@@ -25,6 +25,7 @@ class Racer {
       this.context.canvas.height * 0.1,
       this.width, 
       this.height);
+
     this.context.drawImage(
       this.image,
       this.frameIndex * 240,

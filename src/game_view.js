@@ -34,8 +34,8 @@ class GameView {
   displayRacer() {
     this.racer = new Racer({
       context: this.ctx,
-      width: this.ctx.canvas.width * 0.12,
-      height: this.ctx.canvas.height * 0.12 * 2,
+      width: this.ctx.canvas.width * 0.1,
+      height: this.ctx.canvas.height * 0.25,
     });
   }
 
@@ -89,39 +89,57 @@ class GameView {
       time--;
       this.drawCountdown(time);
       if (time <= 0) {
-        this.drawCountdown(time);
         clearInterval(timer);
+        this.drawCountdown(time);
+        this.fadeOutCountdown();
         this.userInput.disabled = false;
         this.userInput.focus();
         this.game.startRace();
       }
-    }, 1000);
+    }, 100);
   }
 
-  drawCountdown = time => {
-    const fontSize = this.ctx.canvas.width * 0.04;
+  drawCountdown = (time, alpha = 1.0) => {
+    const fontSize = this.ctx.canvas.width * 0.03;
 
     this.ctx.clearRect(
-      this.ctx.canvas.width * 0.5 - fontSize,
-      this.ctx.canvas.height - fontSize * 1.5,
-      35,
-      35);
+      0,
+      this.ctx.canvas.height - fontSize * 2.1,
+      this.ctx.canvas.width,
+      this.ctx.canvas.height);
 
-    this.ctx.fillStyle = "#eee";
+    this.ctx.fillStyle = time <= 0 ? "green" : `rgba(114, 114, 114, ${alpha}`;
     this.ctx.fillRect(
       0,
       this.ctx.canvas.height - fontSize * 2,
       this.ctx.canvas.width,
       this.ctx.canvas.height);
 
-    this.ctx.fillStyle = "black";
-    this.ctx.font = `${fontSize}px sans-serif`;
+    this.ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+    this.ctx.font = `bold ${fontSize}px sans-serif`;
     this.ctx.textBaseline = "top";
 
     this.ctx.fillText(
-      time <= 0 ? "Go!" : ` ${time} `, 
+      time <= 0 ? "Go!" : `${(time/10).toFixed(1)}`, 
       this.ctx.canvas.width * 0.5 - fontSize,
       this.ctx.canvas.height - fontSize * 1.5);
+  }
+
+  fadeOutCountdown = () => {
+    const fontSize = this.ctx.canvas.width * 0.03;
+    let alpha = 0.0;
+    const fade = setInterval(() => {
+      alpha = alpha + 0.05;
+      this.ctx.fillStyle = `rgb(255, 255, 255, ${alpha})`;
+      this.ctx.fillRect(
+        0,
+        this.ctx.canvas.height - fontSize * 2.1,
+        this.ctx.canvas.width,
+        this.ctx.canvas.height);
+      if (alpha >= 1) {
+        clearInterval(fade);
+      }
+    }, 100);
   }
 
   start = e => {
@@ -132,7 +150,7 @@ class GameView {
     this.displayPassageLetters();
     this.displayRacer();
     this.startBtn.disabled = true;
-    this.beginCountdown(3);
+    this.beginCountdown(30);
   }
 
   completeRace() {

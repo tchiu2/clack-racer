@@ -262,32 +262,51 @@ function () {
         _this.drawCountdown(time);
 
         if (time <= 0) {
+          clearInterval(timer);
+
           _this.drawCountdown(time);
 
-          clearInterval(timer);
+          _this.fadeOutCountdown();
+
           _this.userInput.disabled = false;
 
           _this.userInput.focus();
 
           _this.game.startRace();
         }
-      }, 1000);
+      }, 100);
     });
 
     _defineProperty(this, "drawCountdown", function (time) {
-      var fontSize = _this.ctx.canvas.width * 0.04;
+      var alpha = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1.0;
+      var fontSize = _this.ctx.canvas.width * 0.03;
 
-      _this.ctx.clearRect(_this.ctx.canvas.width * 0.5 - fontSize, _this.ctx.canvas.height - fontSize * 1.5, 35, 35);
+      _this.ctx.clearRect(0, _this.ctx.canvas.height - fontSize * 2.1, _this.ctx.canvas.width, _this.ctx.canvas.height);
 
-      _this.ctx.fillStyle = "#eee";
+      _this.ctx.fillStyle = time <= 0 ? "green" : "rgba(114, 114, 114, ".concat(alpha);
 
       _this.ctx.fillRect(0, _this.ctx.canvas.height - fontSize * 2, _this.ctx.canvas.width, _this.ctx.canvas.height);
 
-      _this.ctx.fillStyle = "black";
-      _this.ctx.font = "".concat(fontSize, "px sans-serif");
+      _this.ctx.fillStyle = "rgba(255, 255, 255, ".concat(alpha, ")");
+      _this.ctx.font = "bold ".concat(fontSize, "px sans-serif");
       _this.ctx.textBaseline = "top";
 
-      _this.ctx.fillText(time <= 0 ? "Go!" : " ".concat(time, " "), _this.ctx.canvas.width * 0.5 - fontSize, _this.ctx.canvas.height - fontSize * 1.5);
+      _this.ctx.fillText(time <= 0 ? "Go!" : "".concat((time / 10).toFixed(1)), _this.ctx.canvas.width * 0.5 - fontSize, _this.ctx.canvas.height - fontSize * 1.5);
+    });
+
+    _defineProperty(this, "fadeOutCountdown", function () {
+      var fontSize = _this.ctx.canvas.width * 0.03;
+      var alpha = 0.0;
+      var fade = setInterval(function () {
+        alpha = alpha + 0.05;
+        _this.ctx.fillStyle = "rgb(255, 255, 255, ".concat(alpha, ")");
+
+        _this.ctx.fillRect(0, _this.ctx.canvas.height - fontSize * 2.1, _this.ctx.canvas.width, _this.ctx.canvas.height);
+
+        if (alpha >= 1) {
+          clearInterval(fade);
+        }
+      }, 100);
     });
 
     _defineProperty(this, "start", function (e) {
@@ -305,7 +324,7 @@ function () {
 
       _this.startBtn.disabled = true;
 
-      _this.beginCountdown(3);
+      _this.beginCountdown(30);
     });
 
     this.ctx = ctx;
@@ -334,8 +353,8 @@ function () {
     value: function displayRacer() {
       this.racer = new _racer__WEBPACK_IMPORTED_MODULE_2__["default"]({
         context: this.ctx,
-        width: this.ctx.canvas.width * 0.12,
-        height: this.ctx.canvas.height * 0.12 * 2
+        width: this.ctx.canvas.width * 0.1,
+        height: this.ctx.canvas.height * 0.25
       });
     }
   }, {
