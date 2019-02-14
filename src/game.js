@@ -23,7 +23,6 @@ class Game {
     this.incorrect = true;
     this.currentFragment = e.target.value;
     this.remainingPassage[0] === this.currentFragment && this.updateUserInput();
-    //this.userInput.concat(this.currentFragment) === this.passage.slice(0, this.userInput.length + this.currentFragment.length) && this.updateUserInput();
   }
 
   updateUserInput() {

@@ -128,7 +128,7 @@ export const keyboardHTML = `
             <svg class="keyboard-key" data-key="Backslash" x="566" y="42">
               <rect class="keyboard-button" x="0" y="0" width="60" height="40"></rect> 
               <text class="keyboard-key-multi-label" x="15" y="15">|</text> 
-              <text class="keyboard-key-multi-label" x="15" y="30">\</text> 
+              <text class="keyboard-key-multi-label" x="15" y="30">\\</text> 
             </svg>
             <svg class="keyboard-key" data-key="CapsLock" x="0" y="84">
               <rect class="keyboard-button" x="0" y="0" width="70" height="40"></rect> 

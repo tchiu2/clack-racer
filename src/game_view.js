@@ -7,6 +7,7 @@ class GameView {
     this.ctx = ctx;
     this.game = game;
     this.keyboardShown = false;
+    this.fontSize = this.ctx.canvas.width * 0.03;
 
     this.container = document.getElementById('passage-container');
     this.userInput = document.getElementById('user-input');
@@ -17,7 +18,9 @@ class GameView {
     this.startBtn.addEventListener('click', this.start);
     this.toggleKeyboardShow.addEventListener('click', this.toggleKeyboardDisplay);
     this.container.addEventListener('click', () => this.userInput.focus());
+
     this.userInput.disabled = true;
+    this.toggleKeyboardDisplay();
   }
 
   displayPassage() {
@@ -34,13 +37,12 @@ class GameView {
   displayRacer() {
     this.racer = new Racer({
       context: this.ctx,
-      width: this.ctx.canvas.width * 0.1,
-      height: this.ctx.canvas.height * 0.25,
+      width: this.ctx.canvas.width * 0.12,
+      height: this.ctx.canvas.height * 0.3,
     });
   }
 
   displayPassageLetters() {
-    console.log(this.game.incorrect);
     const completed = Array.from(this.game.userInput, c => `<span class="letter completed">${c}</span>`).join('');
     const remaining = Array.from(this.game.remainingPassage, (c, i) => `<span class="letter remaining ${i === 0 ? "cursor" : ""} ${this.game.incorrect ? "error" : ""}">${c}</span>`).join('');
     this.container.innerHTML = `${completed}${remaining}`;
@@ -89,12 +91,15 @@ class GameView {
       if (time <= 0) {
         clearInterval(timer);
         this.drawCountdown(time);
-        this.fadeOutCountdown();
         this.userInput.disabled = false;
         this.userInput.focus();
         this.game.startRace();
       }
     }, 100);
+  }
+
+  drawInstructions = () => {
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
   }
 
   drawCountdown = (time, alpha = 1.0) => {
@@ -106,7 +111,8 @@ class GameView {
       this.ctx.canvas.width,
       this.ctx.canvas.height);
 
-    this.ctx.fillStyle = time <= 0 ? "green" : `rgba(114, 114, 114, ${alpha}`;
+    this.ctx.fillStyle = time <= 0 ? "green" : "red";
+    
     this.ctx.fillRect(
       0,
       this.ctx.canvas.height - fontSize * 2,
@@ -155,8 +161,8 @@ class GameView {
     this.game.calculateResults();
     this.userInput.disabled = true;
     this.startBtn.disabled = false;
-    showResults(this.game.results, this.container); 
+    showResults(this.game.results, this.ctx); 
   }
 }
-
 export default GameView;
+
