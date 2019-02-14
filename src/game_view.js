@@ -40,8 +40,9 @@ class GameView {
   }
 
   displayPassageLetters() {
+    console.log(this.game.incorrect);
     const completed = Array.from(this.game.userInput, c => `<span class="letter completed">${c}</span>`).join('');
-    const remaining = Array.from(this.game.remainingPassage, (c, i) => `<span class="letter remaining ${i === 0 ? "cursor" : ""}">${c}</span>`).join('');
+    const remaining = Array.from(this.game.remainingPassage, (c, i) => `<span class="letter remaining ${i === 0 ? "cursor" : ""} ${this.game.incorrect ? "error" : ""}">${c}</span>`).join('');
     this.container.innerHTML = `${completed}${remaining}`;
   }
 
@@ -55,9 +56,6 @@ class GameView {
     while (this.container.firstChild) {
       this.container.removeChild(this.container.firstChild);
     }
-    this.timer.innerHTML = "";
-    this.timer.hidden = true;
-    this.timer.classList.remove('fade-out');
     this.game.reset();
     this.ctx.clearRect(0,0, this.ctx.canvas.width, this.ctx.canvas.height);
   }

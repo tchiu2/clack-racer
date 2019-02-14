@@ -128,18 +128,21 @@ function () {
     this.startTime = "";
     this.finishTime = "";
     this.results = {};
+    this.incorrect = false;
   }
 
   _createClass(Game, [{
     key: "receiveUserInput",
     value: function receiveUserInput(e) {
       this.keystrokes++;
+      this.incorrect = true;
       this.currentFragment = e.target.value;
-      this.userInput.concat(this.currentFragment) === this.passage.slice(0, this.userInput.length + this.currentFragment.length) && this.updateUserInput();
+      this.remainingPassage[0] === this.currentFragment && this.updateUserInput(); //this.userInput.concat(this.currentFragment) === this.passage.slice(0, this.userInput.length + this.currentFragment.length) && this.updateUserInput();
     }
   }, {
     key: "updateUserInput",
     value: function updateUserInput() {
+      this.incorrect = false;
       this.userInput += this.currentFragment;
       this.remainingPassage = this.passage.slice(this.userInput.length);
       document.getElementById("user-input").value = "";
@@ -360,11 +363,14 @@ function () {
   }, {
     key: "displayPassageLetters",
     value: function displayPassageLetters() {
+      var _this2 = this;
+
+      console.log(this.game.incorrect);
       var completed = Array.from(this.game.userInput, function (c) {
         return "<span class=\"letter completed\">".concat(c, "</span>");
       }).join('');
       var remaining = Array.from(this.game.remainingPassage, function (c, i) {
-        return "<span class=\"letter remaining ".concat(i === 0 ? "cursor" : "", "\">").concat(c, "</span>");
+        return "<span class=\"letter remaining ".concat(i === 0 ? "cursor" : "", " ").concat(_this2.game.incorrect ? "error" : "", "\">").concat(c, "</span>");
       }).join('');
       this.container.innerHTML = "".concat(completed).concat(remaining);
     }
@@ -375,9 +381,6 @@ function () {
         this.container.removeChild(this.container.firstChild);
       }
 
-      this.timer.innerHTML = "";
-      this.timer.hidden = true;
-      this.timer.classList.remove('fade-out');
       this.game.reset();
       this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     }

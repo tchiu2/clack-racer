@@ -15,15 +15,19 @@ class Game {
     this.startTime = "";
     this.finishTime = "";
     this.results = {};
+    this.incorrect = false;
   }
 
   receiveUserInput(e) {
     this.keystrokes++;
+    this.incorrect = true;
     this.currentFragment = e.target.value;
-    this.userInput.concat(this.currentFragment) === this.passage.slice(0, this.userInput.length + this.currentFragment.length) && this.updateUserInput();
+    this.remainingPassage[0] === this.currentFragment && this.updateUserInput();
+    //this.userInput.concat(this.currentFragment) === this.passage.slice(0, this.userInput.length + this.currentFragment.length) && this.updateUserInput();
   }
 
   updateUserInput() {
+    this.incorrect = false;
     this.userInput += this.currentFragment;
     this.remainingPassage = this.passage.slice(this.userInput.length);
     document.getElementById("user-input").value = "";
