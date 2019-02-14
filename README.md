@@ -7,9 +7,9 @@ ClackRacer is typing gaming inspired by the multiplayer browser game TypeRacer. 
 ### Functionality & MVP
 
 ClackRacer will allow users to:
-- [ ] Start a round
-- [ ] Type passages with visual indication of progress and correctness
-- [ ] View typing speed and accuracy at the end of a round
+- [X] Start a round
+- [X] Type passages with visual indication of progress and correctness
+- [X] View typing speed and accuracy at the end of a round
 - [ ] Choose to replay the passage or play a new passage at the end of each round
 
 Additionally, the game will include:
