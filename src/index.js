@@ -15,10 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const showInstructions = (ctx, fontSize) => {
-  ctx.font = `bold ${Math.floor(fontSize)}px Monaco`;
+  ctx.font = `bold ${Math.floor(fontSize)}px sans-serif`;
   ctx.fillStyle = "black";
   ctx.textAlign = "center";
-  ctx.textBaseline = "center";
+  ctx.textBaseline = "middle";
   ctx.fillText(
     "Click below to start a race!",
     ctx.canvas.width / 2,

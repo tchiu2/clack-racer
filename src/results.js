@@ -13,7 +13,7 @@ export const showResults = (results, ctx) => {
       ctx.canvas.width,
       ctx.canvas.height);
 
-    ctx.font = `bold ${Math.floor(fontSize * 0.75)}px Monaco`;
+    ctx.font = `bold ${Math.floor(fontSize * 0.75)}px sans-serif`;
     ctx.fillStyle = `rgba(0, 0, 0, ${alpha})`;
     ctx.textAlign = "center";
     ctx.fillText(

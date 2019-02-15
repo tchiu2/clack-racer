@@ -38,14 +38,16 @@ class GameView {
     this.racer = new Racer({
       context: this.ctx,
       width: this.ctx.canvas.width * 0.12,
-      height: this.ctx.canvas.height * 0.3,
+      height: this.ctx.canvas.height * 0.32,
     });
   }
 
   displayPassageLetters() {
     const completed = Array.from(this.game.userInput, c => `<span class="letter completed">${c}</span>`).join('');
     const remaining = Array.from(this.game.remainingPassage, (c, i) => `<span class="letter remaining ${i === 0 ? "cursor" : ""} ${this.game.incorrect ? "error" : ""}">${c}</span>`).join('');
-    this.container.innerHTML = `${completed}${remaining}`;
+
+    this.container.innerHTML = `<div id="passage-heading">${remaining.length === 0 ? "You finished!" : "Type the passage below:"}</div><div id="passage">${completed}${remaining}</div>`;
+    this.container.style.visibility = "visible";
   }
 
   toggleKeyboardDisplay = e => {

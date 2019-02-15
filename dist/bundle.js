@@ -361,7 +361,7 @@ function () {
       this.racer = new _racer__WEBPACK_IMPORTED_MODULE_2__["default"]({
         context: this.ctx,
         width: this.ctx.canvas.width * 0.12,
-        height: this.ctx.canvas.height * 0.3
+        height: this.ctx.canvas.height * 0.32
       });
     }
   }, {
@@ -375,7 +375,8 @@ function () {
       var remaining = Array.from(this.game.remainingPassage, function (c, i) {
         return "<span class=\"letter remaining ".concat(i === 0 ? "cursor" : "", " ").concat(_this2.game.incorrect ? "error" : "", "\">").concat(c, "</span>");
       }).join('');
-      this.container.innerHTML = "".concat(completed).concat(remaining);
+      this.container.innerHTML = "<div id=\"passage-heading\">".concat(remaining.length === 0 ? "You finished!" : "Type the passage below:", "</div><div id=\"passage\">").concat(completed).concat(remaining, "</div>");
+      this.container.style.visibility = "visible";
     }
   }, {
     key: "reset",
@@ -436,10 +437,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 var showInstructions = function showInstructions(ctx, fontSize) {
-  ctx.font = "bold ".concat(Math.floor(fontSize), "px Monaco");
+  ctx.font = "bold ".concat(Math.floor(fontSize), "px sans-serif");
   ctx.fillStyle = "black";
   ctx.textAlign = "center";
-  ctx.textBaseline = "center";
+  ctx.textBaseline = "middle";
   ctx.fillText("Click below to start a race!", ctx.canvas.width / 2, ctx.canvas.height / 2);
 };
 
@@ -558,7 +559,7 @@ var showResults = function showResults(results, ctx) {
     alpha = alpha + 0.05;
     ctx.fillStyle = "rgba(246, 246, 246, ".concat(alpha, ")");
     ctx.fillRect(0, ctx.canvas.height - fontSize * 2.1, ctx.canvas.width, ctx.canvas.height);
-    ctx.font = "bold ".concat(Math.floor(fontSize * 0.75), "px Monaco");
+    ctx.font = "bold ".concat(Math.floor(fontSize * 0.75), "px sans-serif");
     ctx.fillStyle = "rgba(0, 0, 0, ".concat(alpha, ")");
     ctx.textAlign = "center";
     ctx.fillText("WPM: ".concat(wpm, "   Time: ").concat(Object(_util__WEBPACK_IMPORTED_MODULE_0__["formatTime"])(time), "   Accuracy: ").concat(accuracy, "%"), ctx.canvas.width * 0.5, ctx.canvas.height - fontSize * 1.3);

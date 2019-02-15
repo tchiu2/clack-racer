@@ -53,16 +53,28 @@
 
 #passage-container {
   font-family: "Lucida Console", "Monaco", monospace;
+  visibility: hidden;
   padding: 8px;
 	font-size: 1.2rem;
   line-height: 1.6rem;
-  margin: 10px 0;
+  margin: 15px 10px 0 0;
   transition: all 0.2s ease-in-out;
+  --text-color: #ccc;
+  color: #ccc;
+}
+
+#passage-heading {
+  color: black;
+  font-family: sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
 }
 
 #user-input:focus + #passage-container {
   border-radius: 5px;
-  background: rgba(114, 114, 114, 0.1);
+  background: white;
+  --text-color: black;
+  color: black;
 }
 
 #completed-passage { 
@@ -89,7 +101,7 @@
     background: var(--bg-color);
   }
   50% {
-    color: black;
+    color: var(--text-color);
     background: transparent;
   }
 }
@@ -100,7 +112,7 @@
     background: var(--bg-color);
   }
   50% {
-    color: black;
+    color: var(--text-color);
     background: transparent;
   }
 }
