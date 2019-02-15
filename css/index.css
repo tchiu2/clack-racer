@@ -12,6 +12,37 @@
   max-height: 320px;
 }
 
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+.left > img {
+  margin-left: 10px;
+  max-height: 60px;
+  max-width: 60px;
+}
+
+.right > a {
+  height: 50px;
+  width: 50px;
+  padding: 8px;
+  text-align: center;
+  line-height: 50%;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+  color: #ccc;
+}
+
+.right > a:hover {
+  color: white;
+  background: #ccc;
+}
+
 #title {
   font-size: 2rem;
   font-weight: 700;
@@ -19,6 +50,7 @@
 }
 
 .canvas-container {
+  margin-top: 10px;
   width: 100%;
   box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.5);
 }
@@ -33,11 +65,13 @@
 
 #start {
   border-radius: 4px;
-  width: 150px;
+  padding: 8px 16px;
   min-height: 36px;
   background: #1a73e8;
   text-align: center;
-  line-height: 20px;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+  line-height: 1.8rem;
   color: white;
 }
 
@@ -45,14 +79,8 @@
   background: #0654bb;
 }
 
-#start > label {
-  font-size: 1.2rem;
-  line-height: 1.6rem;
-  padding: 8px
-}
-
 #passage-container {
-  font-family: "Lucida Console", "Monaco", monospace;
+  font-family: "Lucida Console", "Menlo", monospace;
   visibility: hidden;
   padding: 8px;
 	font-size: 1.2rem;
@@ -79,6 +107,10 @@
 
 #completed-passage { 
   color: green;
+}
+
+.letter {
+  white-space: pre-wrap;
 }
 
 .completed {
@@ -115,16 +147,6 @@
     color: var(--text-color);
     background: transparent;
   }
-}
-
-#user-input {
-  display: hidden;
-  margin: 10px 0;
-	padding: 2px 5px;
-  line-height: 24px;
-  font-size: 18px;
-  border: 1px solid #ccc;
-  border-radius: 2px;
 }
 
 #user-input { 
@@ -198,8 +220,16 @@ text[class*="-label"] {
 #toggle-label {
   margin: 0 16px;
   color: rgba(0, 0, 0, 0.8);
+  font-size: 1.2rem;
   font-weight: 700;
   text-align: right;
+}
+
+#toggle-label > img {
+  width: 48px;
+  height: 48px;
+  margin-left: 10px;
+  filter: invert(1) brightness(0.7) saturate(100%);
 }
 
 /* The switch - the box around the slider */

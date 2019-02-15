@@ -1,13 +1,27 @@
 <html>
   <head>
     <title>ClackRacer</title>
+    <link rel='icon' href='favicon.ico' type='image/x-icon'/ >
     <link rel="stylesheet" type="text/css" href="./css/reset.css">
     <link rel="stylesheet" type="text/css" href="./css/index.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <script type="application/javascript" src="./dist/bundle.js"></script>
   </head>
   <body>
     <div id="main">
-      <h1 id="title">ClackRacer</h1>
+      <header>
+        <div class="left container">
+          <h1 id="title">ClackRacer</h1>
+          <img src="./images/keyboard_icon.png"/>
+        </div>
+        <div class="right container">
+          <a href="https://github.com/tchiu2/clack-racer"><i class="fab fa-github fa-2x"></i></a>
+          <a href="https://www.linkedin.com/in/terence-chiu-ba9b2841"><i class="fab fa-linkedin fa-2x"></i></a>
+          <a href="mailto:tchiu2@gmail.com"><i class="fas fa-envelope fa-2x"></i></a>
+        </div>
+      </header>
+
       <div class="canvas-container">
         <canvas id="canvas"></canvas>
       </div>
@@ -16,7 +30,9 @@
 			<div class="button-container">
         <button id="start">Start Race</button>
         <div class="container">
-          <div id="toggle-label">Toggle On-Screen Keyboard</div>
+          <div id="toggle-label" class="container"> 
+            <img src="./images/keyboard_icon.png"/>
+          </div>
           <label class="switch">
             <input checked type="checkbox">
             <span id="keyboard-toggle" class="slider round"></span>

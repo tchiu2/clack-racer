@@ -441,7 +441,7 @@ var showInstructions = function showInstructions(ctx, fontSize) {
   ctx.fillStyle = "black";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText("Click below to start a race!", ctx.canvas.width / 2, ctx.canvas.height / 2);
+  ctx.fillText("Click \"Start Race\" to start clacking!", ctx.canvas.width / 2, ctx.canvas.height / 2);
 };
 
 /***/ }),
