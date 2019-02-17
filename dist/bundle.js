@@ -236,11 +236,17 @@ function () {
       _this.keyboardShown = !_this.keyboardShown;
     });
 
+    _defineProperty(this, "toggleSound", function (e) {
+      var label = document.getElementById('sound-label');
+      label.innerHTML = _this.muted ? "<i class=\"fas fa-volume-up fa-lg\"></i>" : "<i class=\"fas fa-volume-off fa-lg\"></i>";
+      _this.muted = !_this.muted;
+      console.log(_this.muted);
+    });
+
     _defineProperty(this, "inputEventHandler", function (e) {
       _this.game.receiveUserInput(e);
 
-      _this.sound.play();
-
+      !_this.muted && _this.sound.play();
       _this.userInput.value = "";
 
       _this.displayPassageLetters();
@@ -341,13 +347,16 @@ function () {
     this.ctx = ctx;
     this.game = game;
     this.keyboardShown = false;
+    this.muted = false;
     this.fontSize = this.ctx.canvas.width * 0.03;
     this.container = document.getElementById('passage-container');
     this.userInput = document.getElementById('user-input');
     this.startBtn = document.getElementById('start');
+    this.toggleSoundSlider = document.getElementById('sound-toggle');
     this.toggleKeyboardShow = document.getElementById('keyboard-toggle');
     this.timer = document.getElementById('timer');
     this.startBtn.addEventListener('click', this.start);
+    this.toggleSoundSlider.addEventListener('click', this.toggleSound);
     this.toggleKeyboardShow.addEventListener('click', this.toggleKeyboardDisplay);
     this.container.addEventListener('click', function () {
       return _this.userInput.focus();

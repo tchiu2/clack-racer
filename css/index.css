@@ -217,12 +217,19 @@ text[class*="-label"] {
   align-items: center;
 }
 
-#toggle-label {
+#toggle-label,
+#sound-label {
   margin: 0 16px;
   color: rgba(0, 0, 0, 0.8);
   font-size: 1.2rem;
   font-weight: 700;
   text-align: right;
+}
+
+#sound-label > i {
+  color: #ccc;
+  text-align: left;
+  min-width: 30px;
 }
 
 #toggle-label > img {
