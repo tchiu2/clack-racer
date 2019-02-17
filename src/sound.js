@@ -1,19 +1,21 @@
 class Sound {
-  constructor(src) {
-    this.sound = document.createElement("audio");
-    this.sound.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
-    this.style.display = "none";
-    document.body.appendChild(this.sound);
+  constructor(sounds) {
+    this.numSounds = sounds.length;
+    for (let i = 0; i < sounds.length; i++) {
+      this[`sound${i}`] = document.createElement("audio");
+      this[`sound${i}`].src = sounds[i];
+      this[`sound${i}`].setAttribute("preload", "auto");
+      this[`sound${i}`].setAttribute("controls", "none");
+      this[`sound${i}`].style.display = "none";
+      document.body.appendChild(this[`sound${i}`]);
+    }
   }
 
   play() {
-    this.sound.play();
-  }
-
-  stop() {
-    this.sound.pause();
+    const sound = this[`sound${Math.floor(Math.random() * this.numSounds)}`];
+    sound.pause();
+    sound.currentTime = 0;
+    sound.play();
   }
 }
 

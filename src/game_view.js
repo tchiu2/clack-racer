@@ -67,6 +67,7 @@ class GameView {
 
   inputEventHandler = e => {
     this.game.receiveUserInput(e);
+    this.sound.play();
     this.userInput.value = "";
     this.displayPassageLetters();
     this.racer.update(this.game.percentComplete());
@@ -153,6 +154,7 @@ class GameView {
     e.preventDefault();
     this.reset();
     this.bindInputListeners();
+    this.sound = new Sound(["./src/clack.mp3", "./src/clack2.mp3", "./src/clack3.mp3"]);
     this.game.getPassage();
     this.displayPassageLetters();
     this.displayRacer();

@@ -239,6 +239,8 @@ function () {
     _defineProperty(this, "inputEventHandler", function (e) {
       _this.game.receiveUserInput(e);
 
+      _this.sound.play();
+
       _this.userInput.value = "";
 
       _this.displayPassageLetters();
@@ -322,6 +324,8 @@ function () {
       _this.reset();
 
       _this.bindInputListeners();
+
+      _this.sound = new _sound__WEBPACK_IMPORTED_MODULE_3__["default"](["./src/clack.mp3", "./src/clack2.mp3", "./src/clack3.mp3"]);
 
       _this.game.getPassage();
 
@@ -597,26 +601,28 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Sound =
 /*#__PURE__*/
 function () {
-  function Sound(src) {
+  function Sound(sounds) {
     _classCallCheck(this, Sound);
 
-    this.sound = document.createElement("audio");
-    this.sound.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
-    this.style.display = "none";
-    document.body.appendChild(this.sound);
+    this.numSounds = sounds.length;
+
+    for (var i = 0; i < sounds.length; i++) {
+      this["sound".concat(i)] = document.createElement("audio");
+      this["sound".concat(i)].src = sounds[i];
+      this["sound".concat(i)].setAttribute("preload", "auto");
+      this["sound".concat(i)].setAttribute("controls", "none");
+      this["sound".concat(i)].style.display = "none";
+      document.body.appendChild(this["sound".concat(i)]);
+    }
   }
 
   _createClass(Sound, [{
     key: "play",
     value: function play() {
-      this.sound.play();
-    }
-  }, {
-    key: "stop",
-    value: function stop() {
-      this.sound.pause();
+      var sound = this["sound".concat(Math.floor(Math.random() * this.numSounds))];
+      sound.pause();
+      sound.currentTime = 0;
+      sound.play();
     }
   }]);
 
