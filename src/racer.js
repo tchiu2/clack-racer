@@ -21,9 +21,9 @@ class Racer {
 
   render = () => {
     this.context.clearRect(
-      this.position * this.context.canvas.width * 0.8 + this.context.canvas.width * 0.05,
+      this.position * this.context.canvas.width * 0.85 + this.context.canvas.width * 0.03,
       this.context.canvas.height * 0.2,
-      this.width, 
+      this.width + 10, 
       this.height);
 
     this.drawTrack();
@@ -34,7 +34,7 @@ class Racer {
       0,
       240,
       180,
-      this.position * this.context.canvas.width * 0.8 + this.context.canvas.width * 0.05,
+      this.position * this.context.canvas.width * 0.85 + this.context.canvas.width * 0.05,
       this.context.canvas.height * 0.2,
       this.width,
       this.height);
@@ -50,13 +50,22 @@ class Racer {
     grd.addColorStop(1, "green");
     grd.addColorStop(1, "white");
 
-    this.context.fillStyle = grd;
+    this.context.strokeStyle = "#ccc";
+    this.context.fillStyle = "green";
+
+    this.context.rect(
+      this.context.canvas.width * 0.05,
+      this.context.canvas.height * 0.2 + this.height,
+      this.context.canvas.width * 0.9,
+      10);
+
+    this.context.stroke();
 
     this.context.fillRect(
       this.context.canvas.width * 0.05,
-      this.context.canvas.height * 0.2,
-      this.position * this.context.canvas.width * 0.8 + 10,
-      this.height);
+      this.context.canvas.height * 0.2 + this.height,
+      this.position * this.context.canvas.width * 0.9,
+      10);
   }
 };
 

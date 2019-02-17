@@ -1,6 +1,7 @@
 import { showResults } from './results';
 import { keyboardHTML } from './keyboard'; 
 import Racer from './racer';
+import Sound from './sound';
 
 class GameView {
   constructor(game, ctx) {
@@ -37,8 +38,8 @@ class GameView {
   displayRacer() {
     this.racer = new Racer({
       context: this.ctx,
-      width: this.ctx.canvas.width * 0.12,
-      height: this.ctx.canvas.height * 0.32,
+      width: 50,
+      height: 50,
     });
   }
 
@@ -105,7 +106,7 @@ class GameView {
   }
 
   drawCountdown = (time, alpha = 1.0) => {
-    const fontSize = this.ctx.canvas.width * 0.03;
+    const fontSize = this.ctx.canvas.height * 0.12;
 
     this.ctx.clearRect(
       0,

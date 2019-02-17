@@ -2,7 +2,7 @@ import { formatTime } from './util';
 
 export const showResults = (results, ctx) => {
   const { wpm, time, accuracy } = results;
-  const fontSize = ctx.canvas.width * 0.03;
+  const fontSize = ctx.canvas.height * 0.12;
   let alpha = 0.0;
   const fade = setInterval(() => {
     alpha = alpha + 0.05;

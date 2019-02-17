@@ -208,6 +208,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _results__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./results */ "./src/results.js");
 /* harmony import */ var _keyboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./keyboard */ "./src/keyboard.js");
 /* harmony import */ var _racer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./racer */ "./src/racer.js");
+/* harmony import */ var _sound__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./sound */ "./src/sound.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -215,6 +216,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -284,7 +286,7 @@ function () {
 
     _defineProperty(this, "drawCountdown", function (time) {
       var alpha = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1.0;
-      var fontSize = _this.ctx.canvas.width * 0.03;
+      var fontSize = _this.ctx.canvas.height * 0.12;
 
       _this.ctx.clearRect(0, _this.ctx.canvas.height - fontSize * 2.1, _this.ctx.canvas.width, _this.ctx.canvas.height);
 
@@ -360,8 +362,8 @@ function () {
     value: function displayRacer() {
       this.racer = new _racer__WEBPACK_IMPORTED_MODULE_2__["default"]({
         context: this.ctx,
-        width: this.ctx.canvas.width * 0.12,
-        height: this.ctx.canvas.height * 0.32
+        width: 50,
+        height: 50
       });
     }
   }, {
@@ -427,10 +429,10 @@ __webpack_require__.r(__webpack_exports__);
 
 document.addEventListener("DOMContentLoaded", function () {
   var canvas = document.getElementById("canvas");
-  canvas.height = window.innerHeight * 0.2;
+  canvas.height = window.innerHeight * 0.15;
   canvas.width = window.innerWidth * 0.5;
   var ctx = canvas.getContext("2d");
-  var fontSize = canvas.width * 0.03;
+  var fontSize = canvas.height * 0.12;
   var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"]();
   new _game_view__WEBPACK_IMPORTED_MODULE_1__["default"](game, ctx);
   showInstructions(ctx, fontSize);
@@ -502,11 +504,11 @@ var Racer = function Racer(options) {
   });
 
   _defineProperty(this, "render", function () {
-    _this.context.clearRect(_this.position * _this.context.canvas.width * 0.8 + _this.context.canvas.width * 0.05, _this.context.canvas.height * 0.2, _this.width, _this.height);
+    _this.context.clearRect(_this.position * _this.context.canvas.width * 0.85 + _this.context.canvas.width * 0.03, _this.context.canvas.height * 0.2, _this.width + 10, _this.height);
 
     _this.drawTrack();
 
-    _this.context.drawImage(_this.image, _this.frameIndex * 240, 0, 240, 180, _this.position * _this.context.canvas.width * 0.8 + _this.context.canvas.width * 0.05, _this.context.canvas.height * 0.2, _this.width, _this.height);
+    _this.context.drawImage(_this.image, _this.frameIndex * 240, 0, 240, 180, _this.position * _this.context.canvas.width * 0.85 + _this.context.canvas.width * 0.05, _this.context.canvas.height * 0.2, _this.width, _this.height);
   });
 
   _defineProperty(this, "drawTrack", function () {
@@ -515,9 +517,14 @@ var Racer = function Racer(options) {
     grd.addColorStop(0.08, "white");
     grd.addColorStop(1, "green");
     grd.addColorStop(1, "white");
-    _this.context.fillStyle = grd;
+    _this.context.strokeStyle = "#ccc";
+    _this.context.fillStyle = "green";
 
-    _this.context.fillRect(_this.context.canvas.width * 0.05, _this.context.canvas.height * 0.2, _this.position * _this.context.canvas.width * 0.8 + 10, _this.height);
+    _this.context.rect(_this.context.canvas.width * 0.05, _this.context.canvas.height * 0.2 + _this.height, _this.context.canvas.width * 0.9, 10);
+
+    _this.context.stroke();
+
+    _this.context.fillRect(_this.context.canvas.width * 0.05, _this.context.canvas.height * 0.2 + _this.height, _this.position * _this.context.canvas.width * 0.9, 10);
   });
 
   var racerImage = new Image();
@@ -553,7 +560,7 @@ var showResults = function showResults(results, ctx) {
   var wpm = results.wpm,
       time = results.time,
       accuracy = results.accuracy;
-  var fontSize = ctx.canvas.width * 0.03;
+  var fontSize = ctx.canvas.height * 0.12;
   var alpha = 0.0;
   var fade = setInterval(function () {
     alpha = alpha + 0.05;
@@ -569,6 +576,54 @@ var showResults = function showResults(results, ctx) {
     }
   }, 100);
 };
+
+/***/ }),
+
+/***/ "./src/sound.js":
+/*!**********************!*\
+  !*** ./src/sound.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Sound =
+/*#__PURE__*/
+function () {
+  function Sound(src) {
+    _classCallCheck(this, Sound);
+
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.style.display = "none";
+    document.body.appendChild(this.sound);
+  }
+
+  _createClass(Sound, [{
+    key: "play",
+    value: function play() {
+      this.sound.play();
+    }
+  }, {
+    key: "stop",
+    value: function stop() {
+      this.sound.pause();
+    }
+  }]);
+
+  return Sound;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Sound);
 
 /***/ }),
 
