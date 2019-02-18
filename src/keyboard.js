@@ -1,6 +1,6 @@
 export const keyboardHTML = `
       <div class="keyboard-container">
-        <svg class="keyboard" viewBox="0 0 678 256">
+        <svg class="keyboard" width="100%" viewBox="0 0 678 256">
           <svg class="keyboard-layout" x="26" y="26">
             <svg class="keyboard-key" data-key="Backquote" x="0" y="0">
               <rect class="keyboard-button" x="0" y="0" width="40" height="40"></rect> 
