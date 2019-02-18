@@ -314,3 +314,33 @@ input:checked + .slider:before {
 #timer.fade-out {
   opacity: 0;
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid white;
+}
+
+th[colspan="4"] {
+  color: black;
+  background-color: white;
+  font-size: 18px;
+}
+
+th {
+  background-color: #ccc;
+  color: white;
+  font-weight: 700;
+  border: 2px solid white;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #ccc;
+}
+
+tr:hover {
+  background-color: #eee;
+}

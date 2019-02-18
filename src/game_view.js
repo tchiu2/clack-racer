@@ -1,4 +1,4 @@
-import { showResults } from './results';
+import { showResults, updateLeaderboard, showLeaderboard } from './results';
 import { keyboardHTML } from './keyboard'; 
 import Racer from './racer';
 import Sound from './sound';
@@ -25,6 +25,7 @@ class GameView {
 
     this.userInput.disabled = true;
     this.toggleKeyboardDisplay();
+    showLeaderboard();
   }
 
   displayPassage() {
@@ -55,8 +56,8 @@ class GameView {
   }
 
   toggleKeyboardDisplay = e => {
-    const main = document.getElementById('main') 
-    main.lastElementChild.innerHTML = (this.keyboardShown ? "" : keyboardHTML);
+    const div = document.getElementById('onscreen-keyboard') 
+    div.innerHTML = (this.keyboardShown ? "" : keyboardHTML);
     this.keyboardShown = !this.keyboardShown;
   }
 
@@ -176,7 +177,9 @@ class GameView {
     this.game.calculateResults();
     this.userInput.disabled = true;
     this.startBtn.disabled = false;
+    updateLeaderboard(this.game.results, this.game.passage);
     showResults(this.game.results, this.ctx); 
+    showLeaderboard();
   }
 }
 export default GameView;

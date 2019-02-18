@@ -5,10 +5,6 @@ const PASSAGES = [
   `I really don't understand the whole mechanical keyboard fad. I imagine these people who obsess over these and talk down about "browns vs red" to be like the wine snobs of the PC world. Anyone care to explain why a mechanical keyboard offers any real benefit other than "it makes clicky noises."`,
   `Oh noes, the clever TAs at App Academy made this "super useful" library, but it keeps throwing ugly error messages that are hard to understand. Let's revamp the library to throw more descriptive errors and prevent incorrect usage.`,
   "The quick brown fox jumps over the lazy dog.",
-  "The quick brown fox jumps over the lazy dog.",
-  "The quick brown fox jumps over the lazy dog.",
-  "The quick brown fox jumps over the lazy dog.",
-  "The quick brown fox jumps over the lazy dog."
 ];
 
 export const randomPassage = () => {

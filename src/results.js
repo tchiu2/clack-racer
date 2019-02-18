@@ -1,5 +1,7 @@
 import { formatTime } from './util';
 
+const STORAGE_KEY = 'clackracerLeaderboard';
+
 export const showResults = (results, ctx) => {
   const { wpm, time, accuracy } = results;
   const fontSize = ctx.canvas.height * 0.12;
@@ -24,4 +26,52 @@ export const showResults = (results, ctx) => {
       clearInterval(fade);
     }
   }, 100);
+};
+
+const getLeaderboard = () => {
+  return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+};
+
+export const updateLeaderboard = ({ wpm }, passage) => {
+  const date = new Date();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  const sorted = [...getLeaderboard(), {
+    wpm,
+    date: `${month}-${day}-${year}`,
+    passage: passage.slice(0, 30) + (passage.length <= 30 ? "" : "..."),
+  }].sort((x, y) => y.wpm - x.wpm).slice(0, 10);
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(sorted));
+};
+
+export const showLeaderboard = () => { 
+  const div = document.getElementById('leaderboard');
+  const rows = getLeaderboard().map(({ wpm, date, passage }, i) => {
+    return `
+      <tr>
+        <td>${i+1}</td>
+        <td>${wpm}</td>
+        <td>${date}</td>
+        <td>${passage}</td>
+      </tr>
+    `;
+  }).join('');
+
+  div.innerHTML = `
+    <table>
+      <tr>
+        <th colspan="4">Personal Top 10 Races</th>
+      </tr>
+      <tr>
+        <th>Rank</th>
+        <th>WPM</th>
+        <th>Date</th>
+        <th>Passage</th>
+      </tr>
+      ${rows}
+    </table>
+  `;
 };

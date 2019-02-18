@@ -231,8 +231,8 @@ function () {
     _classCallCheck(this, GameView);
 
     _defineProperty(this, "toggleKeyboardDisplay", function (e) {
-      var main = document.getElementById('main');
-      main.lastElementChild.innerHTML = _this.keyboardShown ? "" : _keyboard__WEBPACK_IMPORTED_MODULE_1__["keyboardHTML"];
+      var div = document.getElementById('onscreen-keyboard');
+      div.innerHTML = _this.keyboardShown ? "" : _keyboard__WEBPACK_IMPORTED_MODULE_1__["keyboardHTML"];
       _this.keyboardShown = !_this.keyboardShown;
     });
 
@@ -363,6 +363,7 @@ function () {
     });
     this.userInput.disabled = true;
     this.toggleKeyboardDisplay();
+    Object(_results__WEBPACK_IMPORTED_MODULE_0__["showLeaderboard"])();
   }
 
   _createClass(GameView, [{
@@ -416,7 +417,9 @@ function () {
       this.game.calculateResults();
       this.userInput.disabled = true;
       this.startBtn.disabled = false;
+      Object(_results__WEBPACK_IMPORTED_MODULE_0__["updateLeaderboard"])(this.game.results, this.game.passage);
       Object(_results__WEBPACK_IMPORTED_MODULE_0__["showResults"])(this.game.results, this.ctx);
+      Object(_results__WEBPACK_IMPORTED_MODULE_0__["showLeaderboard"])();
     }
   }]);
 
@@ -485,7 +488,7 @@ var keyboardHTML = "\n      <div class=\"keyboard-container\">\n        <svg cla
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomPassage", function() { return randomPassage; });
-var PASSAGES = ["From this point on, we will be using the command line and pry to test our code, navigate our computer, and perform many other amazing tasks. This means that we are not using repl.it anymore to test our code. Getting comfortable with these tools early will be very important in becoming an efficient developer. After learning them, these tools will make just about any operation you can think of faster than using a GUI and mouse.", "Provided for you here are some Sudoku puzzles in .txt format. Download these to a folder on your computer. In the same folder, we're going to write a Ruby program to read in the puzzle files and let us solve them!", "The path of the righteous man is beset on all sides by the inequities of the selfish and the tyranny of evil men. Blessed is he who, in the name of charity and good will, shepherds the weak through the valley of darkness, for he is truly his brother's keeper and the finder of lost children. And I will strike down upon thee with great vengeance and furious anger those who attempt to poison and destroy my brothers. And you will know my name is the Lord when I lay my vengeance upon you.", "I really don't understand the whole mechanical keyboard fad. I imagine these people who obsess over these and talk down about \"browns vs red\" to be like the wine snobs of the PC world. Anyone care to explain why a mechanical keyboard offers any real benefit other than \"it makes clicky noises.\"", "Oh noes, the clever TAs at App Academy made this \"super useful\" library, but it keeps throwing ugly error messages that are hard to understand. Let's revamp the library to throw more descriptive errors and prevent incorrect usage.", "The quick brown fox jumps over the lazy dog.", "The quick brown fox jumps over the lazy dog.", "The quick brown fox jumps over the lazy dog.", "The quick brown fox jumps over the lazy dog.", "The quick brown fox jumps over the lazy dog."];
+var PASSAGES = ["From this point on, we will be using the command line and pry to test our code, navigate our computer, and perform many other amazing tasks. This means that we are not using repl.it anymore to test our code. Getting comfortable with these tools early will be very important in becoming an efficient developer. After learning them, these tools will make just about any operation you can think of faster than using a GUI and mouse.", "Provided for you here are some Sudoku puzzles in .txt format. Download these to a folder on your computer. In the same folder, we're going to write a Ruby program to read in the puzzle files and let us solve them!", "The path of the righteous man is beset on all sides by the inequities of the selfish and the tyranny of evil men. Blessed is he who, in the name of charity and good will, shepherds the weak through the valley of darkness, for he is truly his brother's keeper and the finder of lost children. And I will strike down upon thee with great vengeance and furious anger those who attempt to poison and destroy my brothers. And you will know my name is the Lord when I lay my vengeance upon you.", "I really don't understand the whole mechanical keyboard fad. I imagine these people who obsess over these and talk down about \"browns vs red\" to be like the wine snobs of the PC world. Anyone care to explain why a mechanical keyboard offers any real benefit other than \"it makes clicky noises.\"", "Oh noes, the clever TAs at App Academy made this \"super useful\" library, but it keeps throwing ugly error messages that are hard to understand. Let's revamp the library to throw more descriptive errors and prevent incorrect usage.", "The quick brown fox jumps over the lazy dog."];
 var randomPassage = function randomPassage() {
   var randIndex = Math.floor(Math.random() * PASSAGES.length);
   return PASSAGES[randIndex];
@@ -561,14 +564,25 @@ var Racer = function Racer(options) {
 /*!************************!*\
   !*** ./src/results.js ***!
   \************************/
-/*! exports provided: showResults */
+/*! exports provided: showResults, updateLeaderboard, showLeaderboard */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showResults", function() { return showResults; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateLeaderboard", function() { return updateLeaderboard; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showLeaderboard", function() { return showLeaderboard; });
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util */ "./src/util.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+
+var STORAGE_KEY = 'clackracerLeaderboard';
 var showResults = function showResults(results, ctx) {
   var wpm = results.wpm,
       time = results.time,
@@ -588,6 +602,36 @@ var showResults = function showResults(results, ctx) {
       clearInterval(fade);
     }
   }, 100);
+};
+
+var getLeaderboard = function getLeaderboard() {
+  return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+};
+
+var updateLeaderboard = function updateLeaderboard(_ref, passage) {
+  var wpm = _ref.wpm;
+  var date = new Date();
+  var month = date.getMonth() + 1;
+  var day = date.getDate();
+  var year = date.getFullYear();
+  var sorted = [].concat(_toConsumableArray(getLeaderboard()), [{
+    wpm: wpm,
+    date: "".concat(month, "-").concat(day, "-").concat(year),
+    passage: passage.slice(0, 30) + (passage.length <= 30 ? "" : "...")
+  }]).sort(function (x, y) {
+    return y.wpm - x.wpm;
+  }).slice(0, 10);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(sorted));
+};
+var showLeaderboard = function showLeaderboard() {
+  var div = document.getElementById('leaderboard');
+  var rows = getLeaderboard().map(function (_ref2, i) {
+    var wpm = _ref2.wpm,
+        date = _ref2.date,
+        passage = _ref2.passage;
+    return "\n      <tr>\n        <td>".concat(i + 1, "</td>\n        <td>").concat(wpm, "</td>\n        <td>").concat(date, "</td>\n        <td>").concat(passage, "</td>\n      </tr>\n    ");
+  }).join('');
+  div.innerHTML = "\n    <table>\n      <tr>\n        <th colspan=\"4\">Personal Top 10 Races</th>\n      </tr>\n      <tr>\n        <th>Rank</th>\n        <th>WPM</th>\n        <th>Date</th>\n        <th>Passage</th>\n      </tr>\n      ".concat(rows, "\n    </table>\n  ");
 };
 
 /***/ }),
