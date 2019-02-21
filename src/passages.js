@@ -11,7 +11,7 @@ const PASSAGES = [
   "Body cells replace themselves every month. Even at this very moment. Most everything you think you know about me is nothing more than memories.",
   "I never trust people with no appetite. It's like they're always holding something back on you.",
   "But then, I suppose, when with the benefit of hindsight one begins to search one's past for such 'turning points', one is apt to start seeing them everywhere.",
-  `He got me, LeBron said of Tatum's dunk over him. "That f***ing Tatum boomed me." LeBron added, "He's so good," repeating it four times.`,
+  `"He got me", LeBron said of Tatum's dunk over him. "That f***ing Tatum boomed me" LeBron added, "He's so good," repeating it four times.`,
   "If I'm going to die, I'm going to die historic, on the fury road!",
   "Larry, you only told me one lie. You said there will be another Larry Bird. Larry, there will never, ever be another Larry Bird.",
 ]
