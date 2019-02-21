@@ -446,9 +446,9 @@ __webpack_require__.r(__webpack_exports__);
 document.addEventListener("DOMContentLoaded", function () {
   var canvas = document.getElementById("canvas");
   canvas.height = window.innerHeight * 0.18;
-  canvas.width = window.innerWidth * 0.5;
+  canvas.width = (document.documentElement.clientWidth - 14) * 0.5;
   var ctx = canvas.getContext("2d");
-  var fontSize = canvas.height * 0.15;
+  var fontSize = canvas.height * 0.18;
   var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"]();
   new _game_view__WEBPACK_IMPORTED_MODULE_1__["default"](game, ctx);
   showInstructions(ctx, fontSize);
