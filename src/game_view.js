@@ -65,7 +65,6 @@ class GameView {
     const label = document.getElementById('sound-label');
     label.innerHTML = (this.muted ? `<i class="fas fa-volume-up fa-lg"></i>` : `<i class="fas fa-volume-off fa-lg"></i>`); 
     this.muted = !this.muted;
-    console.log(this.muted);
   }
 
   reset() {
@@ -165,7 +164,7 @@ class GameView {
     e.preventDefault();
     this.reset();
     this.bindInputListeners();
-    this.sound = new Sound(["./src/clack.mp3", "./src/clack2.mp3", "./src/clack3.mp3"]);
+    this.sound = new Sound(["./src/sounds/clack.mp3", "./src/sounds/clack2.mp3", "./src/sounds/clack3.mp3"]);
     this.game.getPassage();
     this.displayPassageLetters();
     this.displayRacer();

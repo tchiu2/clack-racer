@@ -240,7 +240,6 @@ function () {
       var label = document.getElementById('sound-label');
       label.innerHTML = _this.muted ? "<i class=\"fas fa-volume-up fa-lg\"></i>" : "<i class=\"fas fa-volume-off fa-lg\"></i>";
       _this.muted = !_this.muted;
-      console.log(_this.muted);
     });
 
     _defineProperty(this, "inputEventHandler", function (e) {
@@ -331,7 +330,7 @@ function () {
 
       _this.bindInputListeners();
 
-      _this.sound = new _sound__WEBPACK_IMPORTED_MODULE_3__["default"](["./src/clack.mp3", "./src/clack2.mp3", "./src/clack3.mp3"]);
+      _this.sound = new _sound__WEBPACK_IMPORTED_MODULE_3__["default"](["./src/sounds/clack.mp3", "./src/sounds/clack2.mp3", "./src/sounds/clack3.mp3"]);
 
       _this.game.getPassage();
 
