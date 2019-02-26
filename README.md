@@ -33,8 +33,8 @@ The game is structured as follows:
 
 `passages.js`: Handles storing and selecting passage for game.
 
-`keyboard.js`,`racer.js`: Handle rendering on-screen keyboard and racetrack Canvas elements, respectively.
+`keyboard.js`, `racer.js`: Handle rendering on-screen keyboard and racetrack Canvas elements, respectively.
 
-`results.js`,`util.js`: Handle converting game state data into consistent, human readable format.
+`results.js`, `util.js`: Handle converting game state data into consistent, human readable format.
 
 `sound.js`: Handles game audio (included in the game view).
