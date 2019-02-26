@@ -17,6 +17,5 @@ const PASSAGES = [
 ]
 
 export const randomPassage = () => {
-  const randIndex = Math.floor(Math.random() * (PASSAGES.length));
-  return PASSAGES[randIndex];
+  return PASSAGES[Math.floor(Math.random() * (PASSAGES.length))];
 };
