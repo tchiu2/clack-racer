@@ -1,60 +1,40 @@
 # ClackRacer
 
-### Background
+### ClackRacer
 
-ClackRacer is typing gaming inspired by the multiplayer browser game TypeRacer. The goal of the game is to type a short passage as quickly as possible. Players must fix any errors before continuing the race, so accuracy is required. At the end of each race, players will see their accuracy and typing speed (word per minute).
+[ClackRacer](http://terencechiu.me/clack-racer/) is typing gaming inspired by the multiplayer browser game TypeRacer. The goal of the game is to type a short passage as quickly as possible. Players must type each letter correctly in order to continue the race, so accuracy is required. At the end of each race, players will see their accuracy and typing speed (words per minute).
 
-### Functionality & MVP
+### Instructions
+To start a race, simply click the button to display the passage and start the countdown. Once the countdown turns green and displays "GO", start typing the passage. 
 
-ClackRacer will allow users to:
-- [X] Start a round
-- [X] Type passages with visual indication of progress and correctness
-- [X] View typing speed and accuracy at the end of a round
-- [ ] Choose to replay the passage or play a new passage at the end of each round
+After completing a round, your score will be displayed and automatically saved to a local highscores table if it falls within the top 10 fastest rounds (locally stored). You can start another race by clicking the "Start Race" button again.
 
-Additionally, the game will include:
-- [ ] A Help modal describing the rules
-- [ ] A production README
+#### Notes
+You do not need to backspace/delete incorrect characters as you will always stay on the current character until you type it correctly.
 
-### Wireframes
-The app will consist of a single screen with a game board, title and links to the repo, my portfolio, and my LinkedIn. There will be help modal at the bottom of the game board. Users will click into the user input section to type the passage.
+In order for the game to receive user input, the passage must be focused (indicated by passage text being black). In the event that you accidentally unfocus the game (indicated by passage turning light grey), you can refocus the game by clicking on the passage.
 
-![wireframe](wireframe.png)
+Users can toggle the sound effects and on-screen keyboard using the sliders below the passage/racetrack.
 
 ### Technologies
 
-This project will be implemented with the following technologies:
+The project was built using the following technologies:
 - `JavaScript` for game logic
-- `Canvas API` for rendering
+- `Canvas API` for rendering progress
 - `Webpack` for bundling JavaScript files
 
-The game will primarily be comprised of the following files:
+### Implementation 
 
-`board.js`: This will handle game logic such as validating user input, calculating typing speed and accuracy.
+The game is structured as follows:
 
-`board_view.js`: This will handle processing user input and rendering the state of the game.
+`game.js`: Tracks and updates game state (number of keystrokes, time, position is passage, etc).
 
-### Implementation Timeline
+`game_view.js`: Processes user input and composes game state in various views (racetrack, passage, on-screen keyboard) via different modules.
 
-__Day 1__: Setup skeletons for `board` and `board_view` and get webpack up and running. Render sprites using Canvas and build out module to handle user input.
-- Get webpack running
-- Get user input working
+`passages.js`: Handles storing and selecting passage for game.
 
-__Day 2__: Work on parsing passages (figure out where/how to store these as well), rendering to the board and linked to user input.
-- Complete basic interaction and rendering for the game
-- Render board with game state
+`keyboard.js`,`racer.js`: Handle rendering on-screen keyboard and racetrack Canvas elements, respectively.
 
-__Day 3__: Build out game logic to validate user input (i.e. mistyped letters) and calculate speed and accuracy. Work on stylzing board based on game state.
-- Finalize game logic
-- Begin work on styling
+`results.js`,`util.js`: Handle converting game state data into consistent, human readable format.
 
-__Day 4__: Add local high scores (using cookies), build help modal and finalize styling.
-- Polish styling
-- Add any necessary elements to improve UI/UX
-
-### Bonus features
-
-Some features I hope to include:
-- [ ] Add global high scores
-- [ ] Add multiplayer
-- [ ] Add sound effects
+`sound.js`: Handles game audio (included in the game view).
