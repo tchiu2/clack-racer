@@ -4,6 +4,7 @@
 
 [ClackRacer](http://terencechiu.me/clack-racer/) is typing gaming inspired by the multiplayer browser game TypeRacer. The goal of the game is to type a short passage as quickly as possible. Players must type each letter correctly in order to continue the race, so accuracy is required. At the end of each race, players will see their accuracy and typing speed (words per minute).
 
+![clackracer](https://i.imgur.com/AUYbBEA.gif)
 ### Instructions
 To start a race, simply click the button to display the passage and start the countdown. Once the countdown turns green and displays "GO", start typing the passage. 
 
