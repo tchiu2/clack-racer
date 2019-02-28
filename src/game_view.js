@@ -28,17 +28,6 @@ class GameView {
     showLeaderboard();
   }
 
-  displayPassage() {
-    this.container.innerHTML = `
-      <span id="completed-passage">
-        ${this.game.userInput}
-      </span>
-      <span id="remaining-passage">
-        ${this.game.remainingPassage}
-      </span>
-    `
-  }
-
   displayRacer() {
     this.racer = new Racer({
       context: this.ctx,
@@ -47,9 +36,9 @@ class GameView {
     });
   }
 
-  displayPassageLetters() {
-    const completed = Array.from(this.game.userInput, c => `<span class="letter completed">${c}</span>`).join('');
-    const remaining = Array.from(this.game.remainingPassage, (c, i) => `<span class="letter remaining ${i === 0 ? "cursor" : ""} ${this.game.incorrect ? "error" : ""}">${c}</span>`).join('');
+  displayPassage() {
+    const completed = Array.from(this.game.getCompletedPassage(), c => `<span class="letter completed">${c}</span>`).join('');
+    const remaining = Array.from(this.game.getRemainingPassage(), (c, i) => `<span class="letter remaining ${i === 0 ? "cursor" : ""} ${this.game.incorrect ? "error" : ""}">${c}</span>`).join('');
 
     this.container.innerHTML = `<div id="passage-heading">${remaining.length === 0 ? "You finished!" : "Type the passage below:"}</div><div id="passage">${completed}${remaining}</div>`;
     this.container.style.visibility = "visible";
@@ -57,29 +46,23 @@ class GameView {
 
   toggleKeyboardDisplay = e => {
     const div = document.getElementById('onscreen-keyboard') 
-    div.innerHTML = (this.keyboardShown ? "" : keyboardHTML);
+    div.innerHTML = this.keyboardShown ? "" : keyboardHTML;
     this.keyboardShown = !this.keyboardShown;
   }
 
-  toggleSound = e => {
+  toggleSound = () => {
     const label = document.getElementById('sound-label');
-    label.innerHTML = (this.muted ? `<i class="fas fa-volume-up fa-lg"></i>` : `<i class="fas fa-volume-off fa-lg"></i>`); 
+    label.innerHTML = this.muted 
+      ? `<i class="fas fa-volume-up fa-lg"></i>`
+      : `<i class="fas fa-volume-off fa-lg"></i>`; 
     this.muted = !this.muted;
-  }
-
-  reset() {
-    while (this.container.firstChild) {
-      this.container.removeChild(this.container.firstChild);
-    }
-    this.game.reset();
-    this.ctx.clearRect(0,0, this.ctx.canvas.width, this.ctx.canvas.height);
   }
 
   inputEventHandler = e => {
     this.game.receiveUserInput(e);
     !this.muted && this.sound.play();
     this.userInput.value = "";
-    this.displayPassageLetters();
+    this.displayPassage();
     this.racer.update(this.game.percentComplete());
     this.racer.render();
     this.game.isFinished() && this.completeRace();
@@ -98,6 +81,7 @@ class GameView {
   }
 
   beginCountdown = time => {
+    time = time * 10;
     this.drawCountdown(time);
     const timer = setInterval(() => {
       time--;
@@ -116,7 +100,7 @@ class GameView {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
   }
 
-  drawCountdown = (time, alpha = 1.0) => {
+  drawCountdown = time => {
     const fontSize = this.ctx.canvas.height * 0.12;
 
     this.ctx.clearRect(
@@ -133,7 +117,7 @@ class GameView {
       this.ctx.canvas.width,
       this.ctx.canvas.height);
 
-    this.ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+    this.ctx.fillStyle = `rgba(255, 255, 255, 1.0)`;
     this.ctx.font = `bold ${fontSize}px sans-serif`;
     this.ctx.textBaseline = "top";
 
@@ -164,20 +148,32 @@ class GameView {
     e.preventDefault();
     this.reset();
     this.bindInputListeners();
-    this.sound = new Sound(["./src/sounds/clack.mp3", "./src/sounds/clack2.mp3", "./src/sounds/clack3.mp3"]);
+    this.sound = new Sound([
+      "./src/sounds/clack.mp3", 
+      "./src/sounds/clack2.mp3", 
+      "./src/sounds/clack3.mp3"
+    ]);
     this.game.getPassage();
-    this.displayPassageLetters();
+    this.displayPassage();
     this.displayRacer();
     this.startBtn.disabled = true;
-    this.beginCountdown(30);
+    this.beginCountdown(3);
+  }
+
+  reset() {
+    while (this.container.firstChild) {
+      this.container.removeChild(this.container.firstChild);
+    }
+    this.game.reset();
+    this.ctx.clearRect(0,0, this.ctx.canvas.width, this.ctx.canvas.height);
   }
 
   completeRace() {
-    this.game.calculateResults();
+    const results = this.game.calculateResults();
     this.userInput.disabled = true;
     this.startBtn.disabled = false;
-    updateLeaderboard(this.game.results, this.game.passage);
-    showResults(this.game.results, this.ctx); 
+    updateLeaderboard(results, this.game.getCompletedPassage());
+    showResults(results, this.ctx); 
     showLeaderboard();
   }
 }

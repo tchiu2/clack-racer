@@ -127,7 +127,6 @@ function () {
     this.keystrokes = 0;
     this.startTime = "";
     this.finishTime = "";
-    this.results = {};
     this.incorrect = false;
   }
 
@@ -164,14 +163,14 @@ function () {
   }, {
     key: "checkStatus",
     value: function checkStatus() {
-      this.passage === this.userInput && this.calculateResults();
+      if (this.isFinished()) this.calculateResults();
     }
   }, {
     key: "calculateResults",
     value: function calculateResults() {
       this.finishTime = new Date();
       var totalTime = Object(_util__WEBPACK_IMPORTED_MODULE_1__["calculateElapsedTime"])(this.startTime, this.finishTime);
-      this.results = {
+      return {
         wpm: Object(_util__WEBPACK_IMPORTED_MODULE_1__["calculateWPM"])(totalTime, this.passage),
         time: totalTime,
         accuracy: Object(_util__WEBPACK_IMPORTED_MODULE_1__["calculateAccuracy"])(this.keystrokes, this.passage)
@@ -186,6 +185,16 @@ function () {
     key: "percentComplete",
     value: function percentComplete() {
       return this.userInput.length / this.passage.length;
+    }
+  }, {
+    key: "getCompletedPassage",
+    value: function getCompletedPassage() {
+      return this.userInput;
+    }
+  }, {
+    key: "getRemainingPassage",
+    value: function getRemainingPassage() {
+      return this.remainingPassage;
     }
   }]);
 
@@ -236,7 +245,7 @@ function () {
       _this.keyboardShown = !_this.keyboardShown;
     });
 
-    _defineProperty(this, "toggleSound", function (e) {
+    _defineProperty(this, "toggleSound", function () {
       var label = document.getElementById('sound-label');
       label.innerHTML = _this.muted ? "<i class=\"fas fa-volume-up fa-lg\"></i>" : "<i class=\"fas fa-volume-off fa-lg\"></i>";
       _this.muted = !_this.muted;
@@ -248,7 +257,7 @@ function () {
       !_this.muted && _this.sound.play();
       _this.userInput.value = "";
 
-      _this.displayPassageLetters();
+      _this.displayPassage();
 
       _this.racer.update(_this.game.percentComplete());
 
@@ -266,6 +275,8 @@ function () {
     });
 
     _defineProperty(this, "beginCountdown", function (time) {
+      time = time * 10;
+
       _this.drawCountdown(time);
 
       var timer = setInterval(function () {
@@ -292,7 +303,6 @@ function () {
     });
 
     _defineProperty(this, "drawCountdown", function (time) {
-      var alpha = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1.0;
       var fontSize = _this.ctx.canvas.height * 0.12;
 
       _this.ctx.clearRect(0, _this.ctx.canvas.height - fontSize * 2.1, _this.ctx.canvas.width, _this.ctx.canvas.height);
@@ -301,7 +311,7 @@ function () {
 
       _this.ctx.fillRect(0, _this.ctx.canvas.height - fontSize * 2, _this.ctx.canvas.width, _this.ctx.canvas.height);
 
-      _this.ctx.fillStyle = "rgba(255, 255, 255, ".concat(alpha, ")");
+      _this.ctx.fillStyle = "rgba(255, 255, 255, 1.0)";
       _this.ctx.font = "bold ".concat(fontSize, "px sans-serif");
       _this.ctx.textBaseline = "top";
 
@@ -334,13 +344,13 @@ function () {
 
       _this.game.getPassage();
 
-      _this.displayPassageLetters();
+      _this.displayPassage();
 
       _this.displayRacer();
 
       _this.startBtn.disabled = true;
 
-      _this.beginCountdown(30);
+      _this.beginCountdown(3);
     });
 
     this.ctx = ctx;
@@ -366,11 +376,6 @@ function () {
   }
 
   _createClass(GameView, [{
-    key: "displayPassage",
-    value: function displayPassage() {
-      this.container.innerHTML = "\n      <span id=\"completed-passage\">\n        ".concat(this.game.userInput, "\n      </span>\n      <span id=\"remaining-passage\">\n        ").concat(this.game.remainingPassage, "\n      </span>\n    ");
-    }
-  }, {
     key: "displayRacer",
     value: function displayRacer() {
       this.racer = new _racer__WEBPACK_IMPORTED_MODULE_2__["default"]({
@@ -380,18 +385,25 @@ function () {
       });
     }
   }, {
-    key: "displayPassageLetters",
-    value: function displayPassageLetters() {
+    key: "displayPassage",
+    value: function displayPassage() {
       var _this2 = this;
 
-      var completed = Array.from(this.game.userInput, function (c) {
+      var completed = Array.from(this.game.getCompletedPassage(), function (c) {
         return "<span class=\"letter completed\">".concat(c, "</span>");
       }).join('');
-      var remaining = Array.from(this.game.remainingPassage, function (c, i) {
+      var remaining = Array.from(this.game.getRemainingPassage(), function (c, i) {
         return "<span class=\"letter remaining ".concat(i === 0 ? "cursor" : "", " ").concat(_this2.game.incorrect ? "error" : "", "\">").concat(c, "</span>");
       }).join('');
       this.container.innerHTML = "<div id=\"passage-heading\">".concat(remaining.length === 0 ? "You finished!" : "Type the passage below:", "</div><div id=\"passage\">").concat(completed).concat(remaining, "</div>");
       this.container.style.visibility = "visible";
+    }
+  }, {
+    key: "bindInputListeners",
+    value: function bindInputListeners() {
+      this.userInput.addEventListener('input', this.inputEventHandler);
+      this.userInput.addEventListener('keydown', this.handleKey('add'));
+      this.userInput.addEventListener('keyup', this.handleKey('remove'));
     }
   }, {
     key: "reset",
@@ -404,20 +416,13 @@ function () {
       this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     }
   }, {
-    key: "bindInputListeners",
-    value: function bindInputListeners() {
-      this.userInput.addEventListener('input', this.inputEventHandler);
-      this.userInput.addEventListener('keydown', this.handleKey('add'));
-      this.userInput.addEventListener('keyup', this.handleKey('remove'));
-    }
-  }, {
     key: "completeRace",
     value: function completeRace() {
-      this.game.calculateResults();
+      var results = this.game.calculateResults();
       this.userInput.disabled = true;
       this.startBtn.disabled = false;
-      Object(_results__WEBPACK_IMPORTED_MODULE_0__["updateLeaderboard"])(this.game.results, this.game.passage);
-      Object(_results__WEBPACK_IMPORTED_MODULE_0__["showResults"])(this.game.results, this.ctx);
+      Object(_results__WEBPACK_IMPORTED_MODULE_0__["updateLeaderboard"])(results, this.game.getCompletedPassage());
+      Object(_results__WEBPACK_IMPORTED_MODULE_0__["showResults"])(results, this.ctx);
       Object(_results__WEBPACK_IMPORTED_MODULE_0__["showLeaderboard"])();
     }
   }]);
@@ -447,7 +452,7 @@ document.addEventListener("DOMContentLoaded", function () {
   canvas.height = window.innerHeight * 0.18;
   canvas.width = document.documentElement.clientWidth * 0.5;
   var ctx = canvas.getContext("2d");
-  var fontSize = canvas.height * 0.18;
+  var fontSize = canvas.width * 0.03;
   var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"]();
   new _game_view__WEBPACK_IMPORTED_MODULE_1__["default"](game, ctx);
   showInstructions(ctx, fontSize);

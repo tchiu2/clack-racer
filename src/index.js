@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.width = document.documentElement.clientWidth * 0.5
 
   const ctx = canvas.getContext("2d");
-  const fontSize = canvas.height * 0.18;
+  const fontSize = canvas.width * 0.03;
 
   const game = new Game();
   new GameView(game, ctx);

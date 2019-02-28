@@ -14,7 +14,6 @@ class Game {
     this.keystrokes = 0;
     this.startTime = "";
     this.finishTime = "";
-    this.results = {};
     this.incorrect = false;
   }
 
@@ -49,13 +48,13 @@ class Game {
   }
 
   checkStatus() {
-    this.passage === this.userInput && this.calculateResults();
+    if (this.isFinished()) this.calculateResults();
   }
 
   calculateResults() {
     this.finishTime = new Date(); 
     const totalTime = calculateElapsedTime(this.startTime, this.finishTime);
-    this.results = {
+    return {
       wpm: calculateWPM(totalTime, this.passage),
       time: totalTime,
       accuracy: calculateAccuracy(this.keystrokes, this.passage),
@@ -68,6 +67,14 @@ class Game {
 
   percentComplete() {
     return this.userInput.length / this.passage.length
+  }
+
+  getCompletedPassage() {
+    return this.userInput;
+  }
+
+  getRemainingPassage() {
+    return this.remainingPassage;
   }
 }
 
