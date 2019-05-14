@@ -41,7 +41,7 @@ export const updateLeaderboard = ({ wpm }, passage) => {
   const sorted = [...getLeaderboard(), {
     wpm,
     date: `${month}-${day}-${year}`,
-    passage: passage.slice(0, 30) + (passage.length <= 30 ? "" : "..."),
+    passage: passage.slice(0, 50) + (passage.length <= 50 ? "" : "..."),
   }].sort((x, y) => y.wpm - x.wpm).slice(0, 10);
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(sorted));
@@ -61,17 +61,19 @@ export const showLeaderboard = () => {
   }).join('');
 
   div.innerHTML = `
-    <table>
-      <tr>
-        <th colspan="4">Personal Top 10 Races</th>
-      </tr>
-      <tr>
-        <th>Rank</th>
-        <th>WPM</th>
-        <th>Date</th>
-        <th>Passage</th>
-      </tr>
-      ${rows}
-    </table>
+    <div class="overlay">
+      <table>
+        <tr>
+          <th colspan="4">Personal Top 10 Races</th>
+        </tr>
+        <tr>
+          <th>Rank</th>
+          <th>WPM</th>
+          <th>Date</th>
+          <th>Passage</th>
+        </tr>
+        ${rows}
+      </table>
+    </div>
   `;
 };

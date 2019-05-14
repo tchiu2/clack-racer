@@ -8,17 +8,20 @@ class GameView {
     this.ctx = ctx;
     this.game = game;
     this.keyboardShown = false;
+    this.leaderboardShown = false;
     this.muted = false;
     this.fontSize = this.ctx.canvas.width * 0.03;
 
     this.container = document.getElementById('passage-container');
     this.userInput = document.getElementById('user-input');
     this.startBtn = document.getElementById('start');
+    this.leaderboardBtn = document.getElementById('lb-btn');
     this.toggleSoundSlider = document.getElementById('sound-toggle');
     this.toggleKeyboardShow = document.getElementById('keyboard-toggle');
     this.timer = document.getElementById('timer');
 
     this.startBtn.addEventListener('click', this.start);
+    this.leaderboardBtn.addEventListener('click', this.toggleLeaderboard);
     this.toggleSoundSlider.addEventListener('click', this.toggleSound);
     this.toggleKeyboardShow.addEventListener('click', this.toggleKeyboardDisplay);
     this.container.addEventListener('click', () => this.userInput.focus());
@@ -56,6 +59,15 @@ class GameView {
       ? `<i class="fas fa-volume-up fa-lg"></i>`
       : `<i class="fas fa-volume-off fa-lg"></i>`; 
     this.muted = !this.muted;
+  }
+
+  toggleLeaderboard = () => {
+    const leaderboard = document.getElementById('leaderboard');
+    leaderboard.classList.toggle("hidden");
+    this.leaderboardShown = !this.leaderboardShown;
+    if (this.leaderboardShown) {
+      leaderboard.addEventListener('click', this.toggleLeaderboard);
+    }
   }
 
   inputEventHandler = e => {

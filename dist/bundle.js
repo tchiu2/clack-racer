@@ -251,6 +251,16 @@ function () {
       _this.muted = !_this.muted;
     });
 
+    _defineProperty(this, "toggleLeaderboard", function () {
+      var leaderboard = document.getElementById('leaderboard');
+      leaderboard.classList.toggle("hidden");
+      _this.leaderboardShown = !_this.leaderboardShown;
+
+      if (_this.leaderboardShown) {
+        leaderboard.addEventListener('click', _this.toggleLeaderboard);
+      }
+    });
+
     _defineProperty(this, "inputEventHandler", function (e) {
       _this.game.receiveUserInput(e);
 
@@ -356,15 +366,18 @@ function () {
     this.ctx = ctx;
     this.game = game;
     this.keyboardShown = false;
+    this.leaderboardShown = false;
     this.muted = false;
     this.fontSize = this.ctx.canvas.width * 0.03;
     this.container = document.getElementById('passage-container');
     this.userInput = document.getElementById('user-input');
     this.startBtn = document.getElementById('start');
+    this.leaderboardBtn = document.getElementById('lb-btn');
     this.toggleSoundSlider = document.getElementById('sound-toggle');
     this.toggleKeyboardShow = document.getElementById('keyboard-toggle');
     this.timer = document.getElementById('timer');
     this.startBtn.addEventListener('click', this.start);
+    this.leaderboardBtn.addEventListener('click', this.toggleLeaderboard);
     this.toggleSoundSlider.addEventListener('click', this.toggleSound);
     this.toggleKeyboardShow.addEventListener('click', this.toggleKeyboardDisplay);
     this.container.addEventListener('click', function () {
@@ -620,7 +633,7 @@ var updateLeaderboard = function updateLeaderboard(_ref, passage) {
   var sorted = [].concat(_toConsumableArray(getLeaderboard()), [{
     wpm: wpm,
     date: "".concat(month, "-").concat(day, "-").concat(year),
-    passage: passage.slice(0, 30) + (passage.length <= 30 ? "" : "...")
+    passage: passage.slice(0, 50) + (passage.length <= 50 ? "" : "...")
   }]).sort(function (x, y) {
     return y.wpm - x.wpm;
   }).slice(0, 10);
@@ -634,7 +647,7 @@ var showLeaderboard = function showLeaderboard() {
         passage = _ref2.passage;
     return "\n      <tr>\n        <td>".concat(i + 1, "</td>\n        <td>").concat(wpm, "</td>\n        <td>").concat(date, "</td>\n        <td>").concat(passage, "</td>\n      </tr>\n    ");
   }).join('');
-  div.innerHTML = "\n    <table>\n      <tr>\n        <th colspan=\"4\">Personal Top 10 Races</th>\n      </tr>\n      <tr>\n        <th>Rank</th>\n        <th>WPM</th>\n        <th>Date</th>\n        <th>Passage</th>\n      </tr>\n      ".concat(rows, "\n    </table>\n  ");
+  div.innerHTML = "\n    <div class=\"overlay\">\n      <table>\n        <tr>\n          <th colspan=\"4\">Personal Top 10 Races</th>\n        </tr>\n        <tr>\n          <th>Rank</th>\n          <th>WPM</th>\n          <th>Date</th>\n          <th>Passage</th>\n        </tr>\n        ".concat(rows, "\n      </table>\n    </div>\n  ");
 };
 
 /***/ }),

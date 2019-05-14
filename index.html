@@ -30,7 +30,10 @@
       <input type="text" id="user-input"/>
       <div id="passage-container"></div>
 			<div class="button-container">
-        <button id="start">Start Race</button>
+        <div class="buttons">
+          <button id="start" class="button">Start Race</button>
+          <button id="lb-btn" class="button">Top Scores</button>
+        </div>
         <div class="container">
           <div id="sound-label" class="container"> 
             <i class="fas fa-volume-up fa-lg"></i>
@@ -39,7 +42,6 @@
             <input checked type="checkbox">
             <span id="sound-toggle" class="slider round"></span>
           </label>
-
           <div id="toggle-label" class="container"> 
             <img src="./images/keyboard_icon.png"/>
           </div>
@@ -50,7 +52,7 @@
         </div>
 	    </div>	
       <div id="onscreen-keyboard"></div>
-			<div id="leaderboard"></div>
     </div>
+    <div id="leaderboard" class="hidden"></div>
   </body>
 </html>
